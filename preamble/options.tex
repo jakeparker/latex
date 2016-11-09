@@ -1,0 +1,236 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                            Style Options                                %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \newenvironment{thm}{\begin{thm_ams}}{\end{thm_ams}}
+% \newenvironment{cor}{%
+%     \begin{cor_ams}
+%   }{%
+%     \end{cor_ams}
+%   }%
+% \newenvironment{lem}%
+%   {%
+%     \begin{lem_ams}
+%   }{%
+%     \end{lem_ams}
+%   }%
+% \newenvironment{prop}%
+%   {%
+%     \begin{prop_ams}
+%   }{%
+%     \end{prop_ams}
+%   }%
+%
+% \newenvironment{thm*}%
+%   {%
+%     \begin{thm_ams*}
+%   }{%
+%     \end{thm_ams*}
+%   }%
+% \newenvironment{cor*}%
+%   {%
+%     \begin{cor_ams*}
+%   }{%
+%     \end{cor_ams*}
+%   }%
+% \newenvironment{lem*}%
+%   {%
+%     \begin{lem_ams*}
+%   }{%
+%     \end{lem_ams*}
+%   }%
+% \newenvironment{prop*}%
+%   {%
+%     \begin{prop_ams*}
+%   }{%
+%     \end{prop_ams*}
+%   }%
+%
+%
+% \newenvironment{defn}%
+%   {%
+%     \begin{defn_ams}
+%   }{%
+% \end{defn_ams}
+%   }%
+% \newenvironment{conj}%
+%   {%
+%     \begin{conj_ams}
+%   }{%
+% \end{conj_ams}
+%   }%
+% \newenvironment{example}%
+%   {%
+%     \begin{example_ams}
+%   }{%
+%     \end{example_ams}
+%   }%
+%
+% \newenvironment{defn*}%
+%   {%
+%     \begin{defn_ams*}
+%   }{%
+% \end{defn_ams*}
+%   }%
+% \newenvironment{conj*}%
+%   {%
+%     \begin{conj_ams*}
+%   }{%
+% \end{conj_ams*}
+%   }%
+% \newenvironment{example*}%
+%   {%
+%     \begin{example_ams*}
+%   }{%
+%     \end{example_ams*}
+%   }%
+%
+%
+% \newenvironment{remark}%
+%   {%
+%     \begin{remark_ams}
+%   }{%
+%     \end{remark_ams}
+%   }%
+% \newenvironment{note}%
+%   {%
+%     \begin{note_ams}
+%   }{%
+%     \end{note_ams}
+%   }%
+%
+% \newenvironment{remark*}%
+%   {%
+%     \begin{remark_ams*}
+%   }{%
+%     \end{remark_ams*}
+%   }%
+% \newenvironment{note*}%
+%   {%
+%     \begin{note_ams*}
+%   }{%
+%     \end{note_ams*}
+%   }%
+
+%
+%  Plain Theorems
+%
+\@namedef{preamble@style@plain}{%
+  \NewEnviron{thm}{\begin{thm_ams}\BODY\end{thm_ams}}
+  \NewEnviron{cor}{\begin{cor_ams}\BODY\end{cor_ams}}
+  \NewEnviron{lem}{\begin{lem_ams}\BODY\end{lem_ams}}
+  \NewEnviron{prop}{\begin{prop_ams}\BODY\end{prop_ams}}
+
+  \NewEnviron{thm*}{\begin{thm_ams*}\BODY\end{thm_ams*}}
+  \NewEnviron{cor*}{\begin{cor_ams*}\BODY\end{cor_ams*}}
+  \NewEnviron{lem*}{\begin{lem_ams*}\BODY\end{lem_ams*}}
+  \NewEnviron{prop*}{\begin{prop_ams*}\BODY\end{prop_ams*}}
+
+  \NewEnviron{defn}{\begin{defn_ams}\BODY\end{defn_ams}}
+  \NewEnviron{conj}{\begin{conj_ams}\BODY\end{conj_ams}}
+  \NewEnviron{example}{\begin{example_ams}\BODY\end{example_ams}}
+
+  \NewEnviron{defn*}{\begin{defn_ams*}\BODY\end{defn_ams*}}
+  \NewEnviron{conj*}{\begin{conj_ams*}\BODY\end{conj_ams*}}
+  \NewEnviron{example*}{\begin{example_ams*}\BODY\end{example_ams*}}
+
+  \NewEnviron{remark}{\begin{remark_ams}\BODY\end{remark_ams}}
+  \NewEnviron{note}{\begin{note_ams}\BODY\end{note_ams}}
+
+  \NewEnviron{remark*}{\begin{remark_ams*}\BODY\end{remark_ams*}}
+  \NewEnviron{note*}{\begin{note_ams*}\BODY\end{note_ams*}}
+}
+
+
+
+%
+%  Boxed Theorems
+%
+\@namedef{preamble@style@boxed}{%
+  \NewEnviron{thm}{\begin{mdframed}\begin{thm_ams}\BODY\end{thm_ams}\end{mdframed}}
+  \NewEnviron{cor}{\begin{mdframed}\begin{cor_ams}\BODY\end{cor_ams}\end{mdframed}}
+  \NewEnviron{lem}{\begin{mdframed}\begin{lem_ams}\BODY\end{lem_ams}\end{mdframed}}
+  \NewEnviron{prop}{\begin{mdframed}\begin{prop_ams}\BODY\end{prop_ams}\end{mdframed}}
+
+  \NewEnviron{thm*}{\begin{mdframed}\begin{thm_ams*}\BODY\end{thm_ams*}\end{mdframed}}
+  \NewEnviron{cor*}{\begin{mdframed}\begin{cor_ams*}\BODY\end{cor_ams*}\end{mdframed}}
+  \NewEnviron{lem*}{\begin{mdframed}\begin{lem_ams*}\BODY\end{lem_ams*}\end{mdframed}}
+  \NewEnviron{prop*}{\begin{mdframed}\begin{prop_ams*}\BODY\end{prop_ams*}\end{mdframed}}
+
+  \NewEnviron{defn}{\begin{mdframed}\begin{defn_ams}\BODY\end{defn_ams}\end{mdframed}}
+  \NewEnviron{conj}{\begin{mdframed}\begin{conj_ams}\BODY\end{conj_ams}\end{mdframed}}
+  \NewEnviron{example}{\begin{mdframed}\begin{example_ams}\BODY\end{example_ams}\end{mdframed}}
+
+  \NewEnviron{defn*}{\begin{mdframed}\begin{defn_ams*}\BODY\end{defn_ams*}\end{mdframed}}
+  \NewEnviron{conj*}{\begin{mdframed}\begin{conj_ams*}\BODY\end{conj_ams*}\end{mdframed}}
+  \NewEnviron{example*}{\begin{mdframed}\begin{example_ams*}\BODY\end{example_ams*}\end{mdframed}}
+
+  \NewEnviron{remark}{\begin{mdframed}\begin{remark_ams}\BODY\end{remark_ams}\end{mdframed}}
+  \NewEnviron{note}{\begin{mdframed}\begin{note_ams}\BODY\end{note_ams}\end{mdframed}}
+
+  \NewEnviron{remark*}{\begin{mdframed}\begin{remark_ams*}\BODY\end{remark_ams*}\end{mdframed}}
+  \NewEnviron{note*}{\begin{mdframed}\begin{note_ams*}\BODY\end{note_ams*}\end{mdframed}}
+}
+
+
+%
+%  Boxed Header Theorems
+%
+\@namedef{preamble@style@boxedheader}{%
+  \NewEnviron{thm}{\begin{thm_tcb}{}{}\BODY\end{thm_tcb}}
+  \NewEnviron{cor}{\begin{cor_tcb}{}{}\BODY\end{cor_tcb}}
+  \NewEnviron{lem}{\begin{lem_tcb}{}{}\BODY\end{lem_tcb}}
+  \NewEnviron{prop}{\begin{prop_tcb}{}{}\BODY\end{prop_tcb}}
+
+  \NewEnviron{thm*}{\begin{thm_tcb*}\BODY\end{thm_tcb*}}
+  \NewEnviron{cor*}{\begin{cor_tcb*}\BODY\end{cor_tcb*}}
+  \NewEnviron{lem*}{\begin{lem_tcb*}\BODY\end{lem_tcb*}}
+  \NewEnviron{prop*}{\begin{prop_tcb*}\BODY\end{prop_tcb*}}
+
+  \NewEnviron{defn}{\begin{defn_tcb}{}{}\BODY\end{defn_tcb}}
+  \NewEnviron{conj}{\begin{conj_tcb}{}{}\BODY\end{conj_tcb}}
+  \NewEnviron{example}{\begin{example_tcb}{}{}\BODY\end{example_tcb}}
+
+  \NewEnviron{defn*}{\begin{defn_tcb*}\BODY\end{defn_tcb*}}
+  \NewEnviron{conj*}{\begin{conj_tcb*}\BODY\end{conj_tcb*}}
+  \NewEnviron{example*}{\begin{example_tcb*}\BODY\end{example_tcb*}}
+
+  \NewEnviron{remark}{\begin{remark_tcb}{}{}\BODY\end{remark_tcb}}
+  \NewEnviron{note}{\begin{note_tcb}{}{}\BODY\end{note_tcb}}
+
+  \NewEnviron{remark*}{\begin{remark_tcb*}\BODY\end{remark_tcb*}}
+  \NewEnviron{note*}{\begin{note_tcb*}\BODY\end{note_tcb*}}
+}
+
+
+%
+%  Fancy mdframed style
+%
+\@namedef{preamble@style@fancy}{%
+  \NewEnviron{thm}{\begin{thm_md}\BODY\end{thm_md}}
+  \NewEnviron{cor}{\begin{cor_md}\BODY\end{cor_md}}
+  \NewEnviron{lem}{\begin{lem_md}\BODY\end{lem_md}}
+  \NewEnviron{prop}{\begin{prop_md}\BODY\end{prop_md}}
+
+  \NewEnviron{thm*}{\begin{thm_md*}\BODY\end{thm_md*}}
+  \NewEnviron{cor*}{\begin{cor_md*}\BODY\end{cor_md*}}
+  \NewEnviron{lem*}{\begin{lem_md*}\BODY\end{lem_md*}}
+  \NewEnviron{prop*}{\begin{prop_md*}\BODY\end{prop_md*}}
+
+  \NewEnviron{defn}{\begin{defn_md}\BODY\end{defn_md}}
+  \NewEnviron{conj}{\begin{conj_md}\BODY\end{conj_md}}
+  \NewEnviron{example}{\begin{example_md}\BODY\end{example_md}}
+
+  \NewEnviron{defn*}{\begin{defn_md*}\BODY\end{defn_md*}}
+  \NewEnviron{conj*}{\begin{conj_md*}\BODY\end{conj_md*}}
+  \NewEnviron{example*}{\begin{example_md*}\BODY\end{example_md*}}
+
+  \NewEnviron{remark}{\begin{remark_md}\BODY\end{remark_md}}
+  \NewEnviron{note}{\begin{note_md}\BODY\end{note_md}}
+
+  \NewEnviron{remark*}{\begin{remark_md*}\BODY\end{remark_md*}}
+  \NewEnviron{note*}{\begin{note_md*}\BODY\end{note_md*}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,89 @@
+% \newtheorem{}{}[chapter]
+% \newtcbtheorem[number within=chapter]{}{}{}
+
+% turned off number by chapter, since cheatsheet subclasses article and the chapter coutner is not defined in the article class
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                        amsthm theorems                                %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{definition}
+\newtheorem{thm_ams}{Theorem}[chapter]
+\newtheorem{cor_ams}[thm_ams]{Corollary}
+\newtheorem{lem_ams}[thm_ams]{Lemma}
+\newtheorem{prop_ams}[thm_ams]{Proposition}
+\newtheorem*{thm_ams*}{Theorem}
+\newtheorem*{cor_ams*}{Corollary}
+\newtheorem*{lem_ams*}{Lemma}
+\newtheorem*{prop_ams*}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{defn_ams}{Definition}[chapter]
+\newtheorem{conj_ams}{Conjecture}[chapter]
+\newtheorem{example_ams}{Example}[chapter]
+\newtheorem*{defn_ams*}{Definition}
+\newtheorem*{conj_ams*}{Conjecture}
+\newtheorem*{example_ams*}{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark_ams}{Remark}[chapter]
+\newtheorem{note_ams}{Note}[chapter]
+\newtheorem*{remark_ams*}{Remark}
+\newtheorem*{note_ams*}{Note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                          tcb theorems                                 %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtcbtheorem[number within=chapter]{thm_tcb}{Theorem}{
+  code={\pgfkeysalsofrom{\tcbtheoremstyle}}
+  }{thm_tcb}
+\newtcbtheorem[number within=chapter]{cor_tcb}{Corollary}{
+  code={\pgfkeysalsofrom{\tcbtheoremstyle}}
+  }{cor_tcb}
+\newtcbtheorem[number within=chapter]{lem_tcb}{Lemma}{
+  code={\pgfkeysalsofrom{\tcbtheoremstyle}}
+  }{lem_tcb}
+\newtcbtheorem[number within=chapter]{prop_tcb}{Proposition}{
+  code={\pgfkeysalsofrom{\tcbtheoremstyle}}
+  }{prop_tcb}
+
+\newtcbtheorem[number within=chapter]{defn_tcb}{Definition}{
+  code={\pgfkeysalsofrom{\tcbdefinitionstyle}}
+  }{defn_tcb}
+\newtcbtheorem[number within=chapter]{conj_tcb}{Conjecture}{
+  code={\pgfkeysalsofrom{\tcbdefinitionstyle}}
+  }{conj_tcb}
+\newtcbtheorem[number within=chapter]{example_tcb}{Example}{
+  code={\pgfkeysalsofrom{\tcbdefinitionstyle}}
+  }{example_tcb}
+
+\newtcbtheorem[number within=chapter]{remark_tcb}{Remark}{
+  code={\pgfkeysalsofrom{\tcbremarkstyle}}
+  }{remark_tcb}
+\newtcbtheorem[number within=chapter]{note_tcb}{Note}{
+  code={\pgfkeysalsofrom{\tcbremarkstyle}}
+  }{note_tcb}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                         mdframed theorems                             %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mdtheorem[style=colorstyle]{thm_md}{Theorem}
+\mdtheorem[style=colorstyle]{cor_md}{Corollary}
+\mdtheorem[style=colorstyle]{lem_md}{Lemma}
+\mdtheorem[style=colorstyle]{prop_md}{Proposition}
+
+\mdtheorem[style=colorstyle]{defn_md}{Definition}
+\mdtheorem[style=colorstyle]{conj_md}{Conjecture}
+\mdtheorem[style=colorstyle]{example_md}{Example}
+
+\mdtheorem[style=colorstyle]{remark_md}{Remark}
+\mdtheorem[style=colorstyle]{note_md}{Note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

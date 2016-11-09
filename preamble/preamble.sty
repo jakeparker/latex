@@ -1,0 +1,47 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{preamble}[2016/10/06 Preamble]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{dependencies.tex}
+
+\input{styles.tex}
+\input{theorems.tex}
+\input{options.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\SetupKeyvalOptions{family=preamble, prefix=preamble@}
+\DeclareStringOption[plain]{style}[boxed]
+\ProcessKeyvalOptions*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\preamble@eval}[1]{%
+  % check if kvoptions stored <value> in \<prefix>@<option>
+  \@ifundefined{preamble@#1}{%
+    \PackageError{preamble}{Evaluating unknown option '#1'}\@ehc
+  }{%
+    % check if there is macro stored \<prefix>@<option>@<value>
+    \@ifundefined{preamble@#1@\csname preamble@#1\endcsname}{%
+      \PackageError{preamble}{%
+        Invalid option value: #1=%
+        \csname preamble@#1\endcsname
+      }\@ehc
+    }{%
+      % evaluate the macro stored in \<prefix>@<option>@<value>
+      \wlog{Evaluating macro stored in known option '#1'}
+      \csname preamble@#1@\csname preamble@#1\endcsname\endcsname
+      \relax
+    }%
+  }%
+}
+\preamble@eval{style}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{macros.tex}
+
+\endinput

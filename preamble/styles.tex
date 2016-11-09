@@ -1,0 +1,81 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                         Custom Tcolorbox Styles                         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\borderless{%
+	theorem style=plain apart,
+	enhanced,
+	frame hidden,
+	interior hidden,
+	sharp corners,
+	boxrule=0pt,
+	left=0.2cm,right=0.2cm,top=0.2cm,
+	toptitle=0.1cm+1pt,
+	bottomtitle=-0.1cm+0.5em,
+	colframe=white!25!black,
+	colback=white,
+	coltitle=white,
+	title style=white!25!black,
+	bottomrule=1pt,
+	borderline south={1pt}{0pt}{white!25!black},
+	fonttitle=\bfseries,
+	fontupper=\normalsize
+}
+
+\def\tcbtheoremstyle{%
+	theorem style=plain apart,
+	enhanced,
+	frame empty,
+	enterior empty,
+	sharp corners,
+	colframe=white!25!black,
+	coltitle=white,
+	colback=white,
+	title style=white!25!black,
+	borderline={0.5mm}{0mm}{white!25!black}
+}
+\def\tcbdefinitionstyle{%
+	theorem style=plain apart,
+	enhanced,
+	frame empty,
+	enterior empty,
+	sharp corners,
+	colframe=white!25!black,
+	coltitle=white,
+	colback=white,
+	title style=white!25!black,
+	borderline={0.5mm}{0mm}{white!25!black}
+}
+\def\tcbremarkstyle{%
+	theorem style=plain apart,
+	enhanced,
+	frame empty,
+	enterior empty,
+	sharp corners,
+	colframe=white!25!black,
+	coltitle=white,
+	colback=white,
+	title style=white!25!black,
+	borderline={0.5mm}{0mm}{white!25!black}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                         Custom mdframed Styles                         %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mdfdefinestyle{colorstyle}{%
+	rightline=false,
+	leftline=false,
+	topline=true,
+	bottomline=true,
+	linewidth=1pt,
+	frametitlerulewidth=1pt,
+	frametitlefont={\color{cyan}\normalfont\bfseries},
+	frametitlealignment=\raggedright,
+	frametitlerule=true,
+	linecolor=cyan,
+	frametitlerulecolor=cyan
+	%frametitlebackgroundcolor=Gray
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
