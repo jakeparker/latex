@@ -1,5 +1,5 @@
 % \RequirePackage{amsmath, amsthm, amssymb, amsfonts}
-% \RequirePackage{xifthen, xparse, xargs, xfrac}
+% \RequirePackage{xifthen, xparse, xargs, xfrac, xstring}
 % \RequirePackage{dashbox, adjustbox, fancybox}
 % \RequirePackage{mathtools}
 % \RequirePackage{listings} % does this need to be included just before the listings section?
@@ -13,6 +13,8 @@
 % % \RequirePackage{float}
 % % \RequirePackage{tikz}
 % % \RequirePackage{pstricks}
+% % \RequirePackage{pgffor}
+% % \RequirePackage{xintexpr}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                                 letters                               %%%%
@@ -34,17 +36,75 @@
 \newenvironment{switch}[1]{\renewcommand{\caseof}{\ifequals{#1}}}{}
 
 %
-% sequence generator
+% sequence generator [SEP] {LIST} [FUNC]
 %
-\newcommandx*{\makeseq}[3][1=\, , 2=\idfunc]{%
-	\foreach \elem  [count=\i]in {#3} {%
+\newcommandx*{\mkseq}[3][1=\, , 3=\idfunc]{%
+	\foreach \elem [count=\i] in {#2} {%
 		\ifnum\i=1%
-			#2{\elem}%
+			#3{\elem}%
 		\else%
-			#1 #2{\elem}%
+			#1 #3{\elem}%
 		\fi%
 	}%
 }%
+
+% %
+% % range generator [START] {VAR} [STOP] [SKIPABOVE]
+% %       usage:
+% %          -  \mkseq[SKIPABOVE]{\mkrange[START]{VAR}[STOP]}[SEP][FUNC]
+% %
+% \newcommandx*{\@preamble@mkrange@body}[4][]{%
+%   \foreach \elem [count=\i] in {#1,...,\@preamble@mkrange@above} {%
+%     \ifnum\i = 1%
+%       #2_{\elem}%
+%     \else%
+%       \ifnum\i = #4%
+%         \ifthenelse{\boolean{@preamble@mkrange@tail}}{%
+%           \, #2_{\elem) \, \ldots \, #2_{#3}%
+%         }{%
+%           \, #2_{\elem}%
+%         }%
+%       \else%
+%         \, #2_{\elem}%
+%       \fi%
+%     \fi%
+%   }%
+% }%
+% \newcommandx*{\mkrange}[4][1=1 , 3=n, 4=2]{%
+%   \IfInteger{#1}{% START = INT
+%     \IfInteger{#4}{% SKIPABOVE = INT
+%       \def\@preamble@mkrange@above{\xintexpr #1 + #4\relax}%
+%       \newboolean{@preamble@mkrange@tail}
+%       \setboolean{@preamble@mkrange@tail}{true}
+%       \IfInteger{#3}{% STOP = INT
+%         \ifthenelse{#1 > #3}{% START > STOP
+%           \PackageError{preamble}{mkrange.START = '#1' > mkrange.STOP = '#3'}\@ehc%
+%         }{%
+%           \ifthenelse{#1 = #3}{% START = STOP
+%             #2_{#1}%
+%           }{% START < STOP
+%             \ifthenelse{#4 = #3}{% SKIPABOVE = STOP
+%               \boolean{@preamble@mkrange@tail}{false}
+%               \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%             }{%
+%               \ifthenelse{#4 < #3}{% SKIPABOVE < STOP
+%                 \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%               }{% SKIPABOVE > STOP
+%                 \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.STOP = '#3'}\@ehc%
+%               }%
+%             }%
+%           }%
+%         }%
+%       }{% STOP != INT
+%         \ifthenelse{#4 < #1}{% START > SKIPABOVE
+%           \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.START = '#1'}\@ehc%
+%         }{% START <= SKIPABOVE,  STOP != INT
+%           \@preamble@mkrange@body{#1}{#2}{#4}{#3}
+%         }%
+%       }%
+%     }{\PackageError{preamble}{mkrange.SKIPABOVE = '#4' is not an Integer}\@ehc}%
+%   }{\PackageError{preamble}{mkrange.START = '#1' is not an Integer}\@ehc}%
+% }%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,12 +166,13 @@
 %\ifdef{\part}{\renewcommand{\part}[1]{\vspace{.10in}{\bf (#1)}}}{}
 \renewcommand{\part}[1]{\vspace{.10in}{\bf (#1)}}
 \newcommand{\justif}[2]{&{#1}&\text{#2}}
-\newcommand{\justify}[2]{&{#1}&#2}
+\newcommand{\justifyy}[2]{&{#1}&#2}
 \newcommand{\indentitem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
 \newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
 \noindent{\normalfont\large\bfseries#1: #2} \vspace{0.5em}
 \hrule \vspace{.10in}}
 \newcommand{\solution}{\textbf{\normalsize\ Solution}}
+
 
 %
 %  Algorithms
@@ -124,7 +185,7 @@
 
 \newcommand{\lcase}{\left \{}
 \newcommand{\rcase}{\right \}}
-\renewcommand{\log}[2][]{\operatorname{log}_{#1} #2}
+%\renewcommand{\log}[2][]{\operatorname{log}_{#1} #2}
 
 %											% \set{}		--	normal
 %  Sets								% \set*{}		--	delimiters adjust to size of content
@@ -153,9 +214,9 @@
 %
 % Functions
 %
-\newcommand{\lra}{\longrightarrow}
-\newcommand{\ra}{\rightarrow}
-\newcommand{\surj}{\twoheadrightarrow}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\renewcommand{\qedsymbol}{$\blacksquare$}
 
 %
 %  Combinatorics .
@@ -176,33 +237,38 @@
 %  Probability
 %
 \newcommand{\Exp}[1]{\operatorname{\mathbf{E}}\left[#1\right]}
-\newcommand{\Var}[1]{\operatorname{var}\left[#1\right]}
-\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}[1]{\operatorname{Var}\left[#1\right]}
+\newcommand{\Cov}[1]{\operatorname{Cov}\left(#1\right)}
 \newcommand{\Bias}{\operatorname{Bias}}
 \newcommand{\Prob}[1]{\operatorname{\mathbf{P}}\left(#1\right)}
 \newcommand{\pmf}[2]{\mathlarger{p}_{#1}\left(#2\right)}
-\newcommand{\PMF}[1]{\mathcal{P}\left(\makeseq[\cap][\set]{#1} \right)}
+\newcommand{\PMF}[1]{\mathcal{P}\left(\mkseq[\cap]{#1}[\set] \right)}
+
+\newcommand{\MLE}{\rm MLE}
+\newcommand{\MAP}{\rm MAP}
 
 %
 %  Statistics
 %
 
 % statistics: distributions
-\newcommand{\Bern}{}  % bernoulli
-\newcommand{\Bin}{}   % binomial
-\newcommand{\Geom}{}  % geometric
-\newcommand{\NBin}{}  % negative binomial
+\newcommand{\Bern}{\textrm{Bern}}  % bernoulli
+\newcommand{\Bin}{\textrm{Bin}}   % binomial
+\newcommand{\Geom}{\textrm{Geom}}  % geometric
+\newcommand{\NBin}{\textrm{NBin}}  % negative binomial
 \newcommand{\HGeom}{} % hypergeometric
-\newcommand{\Pois}{} % poisson
-\newcommand{\Unif}{}   % uniform
+\newcommand{\Pois}{\textrm{Pois}} % poisson
+\newcommand{\Unif}{\textrm{Unifo}}   % uniform
 \newcommand{\Nor}{}  % normal
-\newcommand{\Expo}{}  % exponential
-\newcommand{\Gamm}{} % gamma
-\newcommand{\Beta}{}  % beta
+\newcommand{\Expo}{\textrm{Expo}}  % exponential
+\newcommand{\Gamm}{\textrm{Gamma}} % gamma
+\newcommand{\Beta}{\textrm{Beta}}  % beta
 \newcommand{\LgNor}{} % log-normal
 \newcommand{\ChiSq}{}   % chi-square
 \newcommand{\Stu}{}   % student-t
 \newcommand{\Wbl}{}   % weibull
+\newcommand{\Mult}{\textrm{Mult}} % multinomial
+
 
 %
 %  Calculus
@@ -228,6 +294,16 @@
 %     \begin{adjustbox}{minipage=.85\textwidth,precode=\dbox}
 % 	}{%
 %     \end{adjustbox}
+% 	}%
+
+% %
+% % Create boxed Environment
+% %
+% \newenvironment{boxed}%
+% 	{%
+% 		\begin{adjustbox}{minipage=0.85\textwidth,precode=\dbox}
+% 	}{%
+% 		\end{adjustbox}
 % 	}%
 
 %
@@ -304,6 +380,14 @@
            {'b}{{$\beta$}}1
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+% Tables
+%
+% \usepackage{array}
+%
+% \newcolumntype{M}[1]{>{$\displaystyle\qquad}p{#1}<{$}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -32,6 +32,7 @@
 
 \AtEndPreamble
 {
+  \setlength\parindent{0pt} % Removes all indentation from paragraphs
   \makeatletter
   \renewcommand{\section}{\@startsection{section}{1}{0mm}%
   															{-1ex plus -.5ex minus -.2ex}%
