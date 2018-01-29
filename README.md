@@ -7,18 +7,23 @@
  - `brew tap caskroom/cask`
  - `brew cask install mactex`
 
-### install our latex-repository
-1. Create the `~/library/texmf/tex` directory.
-  - `cd ~/library`
-  - `mkdir texmf`
-  - `mkdir texmf/tex`
-
-2. Clone the repository
-  a. Clone the repo into `~/library/texmf/tex/<latex-repo-here>`
-    - `git clone https://github.com/jakeparker/latex.git ~/library/texmf/tex`
-  b. Clone the repo somewhere else
-    - `git clone https://github.com/jakeparker/latex.git ~\<local-path-here>`
-    - `ln -s ~/<local-path-here>/latex ~/library/texmf/tex/latex`
+### install the latex-repository
+#### Create the texmf/latex directory.
+```
+> cd ~/library
+> mkdir texmf
+> mkdir texmf/tex
+```
+#### Clone the repository
+(option 1): Clone the repo into `~/library/texmf/tex/<latex-repo-here>`
+```
+> git clone https://github.com/jakeparker/latex.git ~/library/texmf/tex
+```
+(option 2): Clone the repo somewhere else
+```
+> git clone https://github.com/jakeparker/latex.git ~\<local-path-here>
+> ln -s ~/<local-path-here>/latex ~/library/texmf/tex/latex
+```
 
 ## usage
 ```latex
