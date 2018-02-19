@@ -9,11 +9,16 @@
 %%%%                           macros.tex                                  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{amsmath, amsthm, amssymb, amsfonts}
-\RequirePackage{mathtools, array}
-\RequirePackage{gensymb}
 \RequirePackage{xifthen, xparse, xargs, xintexpr, xfrac, xstring}
-\RequirePackage{pgffor}
 \RequirePackage{dashbox, adjustbox, fancybox}
+\RequirePackage{mathtools, etoolbox}
+\mathtoolsset{centercolon}
+\RequirePackage{relsize, mleftright}
+\RequirePackage{bm, dsfont}
+\RequirePackage{gensymb} % \degree \celsius \perthousand \ohm \micro
+\RequirePackage{stmaryrd} % triangle tipped arrows
+\RequirePackage{array}
+\RequirePackage{pgffor}
 \RequirePackage{listings}
 
 
@@ -29,32 +34,13 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                      theorems.tex                                     %%%%
-%%%%                      - styles.tex must be defined                     %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\RequirePackage{amsthm}
-%\RequirePackage{mdframed}
-%\RequirePackage{tcolorbox} -- included with theorem_styles.tex
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                           options.tex                                 %%%%
-%%%%                           - theorems.tex must be defined              %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\RequirePackage{amsthm, mdframed, tcolorbox} -- included with theorem_definitions.tex
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                           other useful packages                       %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % \RequirePackage{enumerate, enumitem}
-  % \RequirePackage{extramarks}
-  % \RequirePackage{linegoal}
-  % \RequirePackage{graphicx}
-  % \RequirePackage{fancyhdr}
-  % \RequirePackage{longtable}
-  % \RequirePackage{float}
-  % \RequirePackage{tikz}
-  % \RequirePackage{pstricks}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
