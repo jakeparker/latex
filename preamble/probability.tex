@@ -1,0 +1,61 @@
+\RequirePackage{amsmath, amsthm, amssymb, amsfonts}
+\RequirePackage{mathtools, etoolbox, etex}
+\RequirePackage{xargs, xparse}
+\RequirePackage{relsize, bm}
+
+
+
+% % TODO ResizeSymbol TODO
+\newcommandx{\ResizeSymbol}[2][1=nostarnonscaled]{%
+  \begin{switch}{#1}
+		\caseof{star}{}
+		\caseof{nostarscaled}{}
+    \caseof{nostarnonscaled}{\nonscript\:\bm{#2\mid}\nonscript\:\mathopen{}}
+  \end{switch}
+}
+% \newcommandx{\ResizeSymbol}[2][1=given]{%
+%   \begin{switch}{#1}
+%     \caseof{given}{\nonscript\:#2\bm{\mathrel{\mathlarger{\mid}}}\nonscript\:\mathopen{}}
+%     \caseof{by}{\nonscript\!#2\bm{\mathlarger{;}}\nonscript\:\mathopen{}}
+%   \end{switch}
+% }
+
+\DeclareMathOperator{\probability}{\mathbf{P}}
+\newcommand{\relmiddle}[1]{\mathrel{}\middle#1\mathrel{}}
+\newcommand{\given}{\bm{\mathrel{\mathlarger{\mid}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclarePairedDelimiterXPP{\Set}[1]{\bm\begingroup}{\mathlarger{\lbrace}}{\mathlarger{\rbrace}}{\endgroup}{%
+  \renewcommand{\given}{\ResizeSymbol[given]{\delimsize}}
+  \endgroup#1\bm\begingroup % \mbox{\unboldmath{$#1$}}
+}
+\DeclarePairedDelimiterX{\set}[1]{\lbrace}{\rbrace}{\setargs#1}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}{\IfNoValueTF{#2}{#1}{#1\,\delimsize|\,\mathopen{}#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%{\bm{\mathrel{\mathlarger{\delimsize{\vert}}}}\mathopen{}}#1}
+%\renewcommand{\given}{\nonscript\;\bm{{\mathlarger{\delimsize\vert}}}\nonscript\;
+\DeclarePairedDelimiterXPP{\Prob}[1]{\probability\bm\begingroup}{\mathord{\mathlarger{\lparen}}}{\mathord{\mathlarger{\rparen}}}{\endgroup}{%
+  \renewcommand{\given}{\ResizeSymbol[given]{\delimsize}}
+  \renewcommand{\by}{\ResizeSymbol[by]{\delimsize}}
+	\endgroup#1\bm\begingroup
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclarePairedDelimiter{\Prob}{\lparen}{\rparen}
+\reDeclarePairedDelimiterInnerWrapper{\Prob}{star}{%
+	\probability \mathopen{}\mathclose\bgroup #1#2\aftergroup\egroup #3
+}%
+\reDeclarePairedDelimiterInnerWrapper{\Prob}{nostarscaled}{%
+	\probability \mathopen{#1}#2\mathclose{#3}
+}%
+\reDeclarePairedDelimiterInnerWrapper{\Prob}{nostarnonscaled}{%
+	\probability \mathopen#1#2\mathclose#3  % \bm{\mathord{\mathlarger{#1}}}  % \bm{\mathord{\mathlarger{#3}}}
+}%
