@@ -40,90 +40,6 @@
 %
 %   -  `\bm{\mathord{\mathlarger{\left(\right.}}} #1  \bm{\mathord{\mathlarger{\left.\right)}}}`
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                               functions                               %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%
-%  switch statement implementation
-%
-\newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
-\newcommand{\caseof}[2]{#1 #2}
-\newenvironment{switch}[1]{\renewcommand{\caseof}{\ifequals{#1}}}{}
-
-
-%
-% sequence generator [SEP] {LIST} [FUNC]
-%
-\newcommandx*{\mkseq}[3][1=\, , 3=\idfunc]{%
-	\foreach \elem [count=\i] in {#2} {%
-		\ifnum\i=1%
-			#3{\elem}%
-		\else%
-			#1 #3{\elem}%
-		\fi%
-	}%
-}%
-
-
-% %
-% % range generator [START] {VAR} [STOP] [SKIPABOVE]
-% %       usage:
-% %          -  \mkseq[SKIPABOVE]{\mkrange[START]{VAR}[STOP]}[SEP][FUNC]
-% %
-% \newcommandx*{\@preamble@mkrange@body}[4][]{%
-%   \foreach \elem [count=\i] in {#1,...,\@preamble@mkrange@above} {%
-%     \ifnum\i = 1%
-%       #2_{\elem}%
-%     \else%
-%       \ifnum\i = #4%
-%         \ifthenelse{\boolean{@preamble@mkrange@tail}}{%
-%           \, #2_{\elem) \, \ldots \, #2_{#3}%
-%         }{%
-%           \, #2_{\elem}%
-%         }%
-%       \else%
-%         \, #2_{\elem}%
-%       \fi%
-%     \fi%
-%   }%
-% }%
-% \newcommandx*{\mkrange}[4][1=1 , 3=n, 4=2]{%
-%   \IfInteger{#1}{% START = INT
-%     \IfInteger{#4}{% SKIPABOVE = INT
-%       \def\@preamble@mkrange@above{\xintexpr #1 + #4\relax}%
-%       \newboolean{@preamble@mkrange@tail}
-%       \setboolean{@preamble@mkrange@tail}{true}
-%       \IfInteger{#3}{% STOP = INT
-%         \ifthenelse{#1 > #3}{% START > STOP
-%           \PackageError{preamble}{mkrange.START = '#1' > mkrange.STOP = '#3'}\@ehc%
-%         }{%
-%           \ifthenelse{#1 = #3}{% START = STOP
-%             #2_{#1}%
-%           }{% START < STOP
-%             \ifthenelse{#4 = #3}{% SKIPABOVE = STOP
-%               \boolean{@preamble@mkrange@tail}{false}
-%               \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
-%             }{%
-%               \ifthenelse{#4 < #3}{% SKIPABOVE < STOP
-%                 \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
-%               }{% SKIPABOVE > STOP
-%                 \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.STOP = '#3'}\@ehc%
-%               }%
-%             }%
-%           }%
-%         }%
-%       }{% STOP != INT
-%         \ifthenelse{#4 < #1}{% START > SKIPABOVE
-%           \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.START = '#1'}\@ehc%
-%         }{% START <= SKIPABOVE,  STOP != INT
-%           \@preamble@mkrange@body{#1}{#2}{#4}{#3}
-%         }%
-%       }%
-%     }{\PackageError{preamble}{mkrange.SKIPABOVE = '#4' is not an Integer}\@ehc}%
-%   }{\PackageError{preamble}{mkrange.START = '#1' is not an Integer}\@ehc}%
-% }%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                       math operators & commands                       %%%%
@@ -378,13 +294,13 @@
 \newcommandx{\@macros@distribution@poisson@expectation}[1]{} % TODO
 %\newcommandx{\@macros@distribution@<>@expectation}[1]{}
 
-\newcommandx{\@macros@distribution@bernoulli@varince}[1]{} % TODO
-\newcommandx{\@macros@distribution@binomial@varince}[1]{} % TODO
-\newcommandx{\@macros@distribution@geometric@varince}[1]{} % TODO
-\newcommandx{\@macros@distribution@negativebinomial@varince}[1]{} % TODO
-\newcommandx{\@macros@distribution@hypergeometric@varince}[1]{} % TODO
-\newcommandx{\@macros@distribution@poisson@varince}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+\newcommandx{\@macros@distribution@bernoulli@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@binomial@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@geometric@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@negativebinomial@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@hypergeometric@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@poisson@variance}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@variance}[1]{}
 
 \newcommandx{\@macros@distribution@bernoulli}[1]{} % TODO
 \newcommandx{\@macros@distribution@binomial}[1]{} % TODO
@@ -407,8 +323,8 @@
 \newcommandx{\@macros@distribution@categorical@expectation}[1]{} % TODO
 %\newcommandx{\@macros@distribution@<>@expectation}[1]{}
 
-\newcommandx{\@macros@distribution@categorical@varince}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+\newcommandx{\@macros@distribution@categorical@variance}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@variance}[1]{}
 
 \newcommandx{\@macros@distribution@categorical}[1]{} % TODO
 %\newcommandx{@macros@distribution@<>}[1]{}
@@ -459,7 +375,7 @@
 \newcommandx{\@macros@distribution@student@variance}[1]{} % TODO
 \newcommandx{\@macros@distribution@weibull@variance}[1]{} % TODO
 \newcommandx{\@macros@distribution@multinomial@variance}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+%\newcommandx{\@macros@distribution@<>@variance}[1]{}
 
 \newcommandx{\@macros@distribution@normal}[1]{} % TODO
 \newcommandx{\@macros@distribution@uniform}[1]{} % TODO
@@ -482,7 +398,7 @@
 
 %\newcommandx{\@macros@distribution@<>@expectation}[1]{}
 
-%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+%\newcommandx{\@macros@distribution@<>@variance}[1]{}
 
 %\newcommandx{\@macros@distribution@<>}[1]{}
 
@@ -594,6 +510,91 @@
 \newcommand{\mbf}[1]{\mathbf{#1}}
 \newcommand{\mbb}[1]{\mathbb{#1}}
 \newcommand{\mcal}[1]{\ifthenelse{\isin{#1}{AÂBCÇDEFGĞHIİÎJKLMNOÖÔPRSŞTUÜÛVYZ}}{\mathcal{#1}}{\smallmathcal{#1}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                               functions                               %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+%  switch statement implementation
+%
+\newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
+\newcommand{\caseof}[2]{#1 #2}
+\newenvironment{switch}[1]{\renewcommand{\caseof}{\ifequals{#1}}}{}
+
+
+%
+% sequence generator [SEP] {LIST} [FUNC]
+%
+\newcommandx*{\mkseq}[3][1=\, , 3=\idfunc]{%
+	\foreach \elem [count=\i] in {#2} {%
+		\ifnum\i=1%
+			#3{\elem}%
+		\else%
+			#1 #3{\elem}%
+		\fi%
+	}%
+}%
+
+
+% %
+% % range generator [START] {VAR} [STOP] [SKIPABOVE]
+% %       usage:
+% %          -  \mkseq[SKIPABOVE]{\mkrange[START]{VAR}[STOP]}[SEP][FUNC]
+% %
+% \newcommandx*{\@preamble@mkrange@body}[4][]{%
+%   \foreach \elem [count=\i] in {#1,...,\@preamble@mkrange@above} {%
+%     \ifnum\i = 1%
+%       #2_{\elem}%
+%     \else%
+%       \ifnum\i = #4%
+%         \ifthenelse{\boolean{@preamble@mkrange@tail}}{%
+%           \, #2_{\elem) \, \ldots \, #2_{#3}%
+%         }{%
+%           \, #2_{\elem}%
+%         }%
+%       \else%
+%         \, #2_{\elem}%
+%       \fi%
+%     \fi%
+%   }%
+% }%
+% \newcommandx*{\mkrange}[4][1=1 , 3=n, 4=2]{%
+%   \IfInteger{#1}{% START = INT
+%     \IfInteger{#4}{% SKIPABOVE = INT
+%       \def\@preamble@mkrange@above{\xintexpr #1 + #4\relax}%
+%       \newboolean{@preamble@mkrange@tail}
+%       \setboolean{@preamble@mkrange@tail}{true}
+%       \IfInteger{#3}{% STOP = INT
+%         \ifthenelse{#1 > #3}{% START > STOP
+%           \PackageError{preamble}{mkrange.START = '#1' > mkrange.STOP = '#3'}\@ehc%
+%         }{%
+%           \ifthenelse{#1 = #3}{% START = STOP
+%             #2_{#1}%
+%           }{% START < STOP
+%             \ifthenelse{#4 = #3}{% SKIPABOVE = STOP
+%               \boolean{@preamble@mkrange@tail}{false}
+%               \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%             }{%
+%               \ifthenelse{#4 < #3}{% SKIPABOVE < STOP
+%                 \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%               }{% SKIPABOVE > STOP
+%                 \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.STOP = '#3'}\@ehc%
+%               }%
+%             }%
+%           }%
+%         }%
+%       }{% STOP != INT
+%         \ifthenelse{#4 < #1}{% START > SKIPABOVE
+%           \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.START = '#1'}\@ehc%
+%         }{% START <= SKIPABOVE,  STOP != INT
+%           \@preamble@mkrange@body{#1}{#2}{#4}{#3}
+%         }%
+%       }%
+%     }{\PackageError{preamble}{mkrange.SKIPABOVE = '#4' is not an Integer}\@ehc}%
+%   }{\PackageError{preamble}{mkrange.START = '#1' is not an Integer}\@ehc}%
+% }%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
