@@ -132,7 +132,7 @@
     \fanchdr{}
     \lhead{15--381}
     \chead{\name{} (\andrewid)}
-    \rhaed{Homework \hwnum}
+    \rhead{Homework \hwnum}
   }
 }%
 

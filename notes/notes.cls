@@ -9,6 +9,21 @@
 \RequirePackage{etoolbox}
 \RequirePackage{environ}
 
+%% <begin> https://tex.stackexchange.com/questions/47646/re-displaying-section-headings-after-page-breaks
+% \RequirePackage{everyshi}
+% \let\@section@title@\relax% Sectional heading storage
+% \patchcmd{\@sect}% <cmd>
+%   {\@xsect}% <search>
+%   {\gdef\@section@title@{% Store sectional heading
+%     {\noindent#6\@svsec#8\normalfont\ \smash{(continued)}}\par\bigskip}\@xsect}% <replace>
+%   {}{}% <success><failure>
+% \EveryShipout{%
+%   \ifdim\pagetotal>\pagegoal% There is content overflow on this page
+%     \aftergroup\@section@title@% Reprint/-insert sectional heading
+%   \fi%
+% }
+%% <end>
+
 \DeclareOption{hideproofs}
 {%
   \NewEnviron{hide}{}
@@ -32,6 +47,8 @@
 
 \AtEndPreamble
 {
+  % https://tex.stackexchange.com/questions/66533/implicit-newline-at-the-end-of-each-paragraph
+  % \setlength\parskip{\baselineskip}
   \setlength\parindent{0pt} % Removes all indentation from paragraphs
   \makeatletter
   \renewcommand{\section}{\@startsection{section}{1}{0mm}%
