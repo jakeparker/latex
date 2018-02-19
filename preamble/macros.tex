@@ -1,39 +1,56 @@
-% \RequirePackage{amsmath, amsthm, amssymb, amsfonts}
-% \RequirePackage{xifthen, xparse, xargs, xfrac, xstring}
-% \RequirePackage{dashbox, adjustbox, fancybox}
-% \RequirePackage{mathtools}
-% \RequirePackage{listings} % does this need to be included just before the listings section?
-% % \RequirePackage{gensymb}
-% % \RequirePackage{enumerate, enumitem}
-% % \RequirePackage{extramarks}
-% % \RequirePackage{linegoal}
-% % \RequirePackage{graphicx}
-% % \RequirePackage{fancyhdr}
-% % \RequirePackage{longtable}
-% % \RequirePackage{float}
-% % \RequirePackage{tikz}
-% % \RequirePackage{pstricks}
-% % \RequirePackage{pgffor}
-% % \RequirePackage{xintexpr}
+% Required *.tex Files:
+%   - dependencies.tex
+
+% Required Packages:
+%   - {amsmath, amsthm, amssymb, amsfonts}
+%   - {xifthen, xparse, xargs, xintexpr, xfrac, xstring}
+%   - {dashbox, adjustbox, fancybox}
+%   - {mathtools, etoolbox}
+%   - {gensymb, stmaryrd, relsize, bm, dsfont}
+%   - {array}
+%   - {pgffor}
+%   - {listings}
+
+% Notes:
+%   -  `\mathrel`  :  relation
+%   -  `\mathbin`  :  binary operation
+%   -  `\mathop`   :  unary operation
+%   -  `\mathord`  :  var
+%   -   always wrap a call to `\mathlarger` or `\mathsmaller` with one of the above
+%
+%   -  `\lbrack` := `\left[`       `\rbrack` := `\right]`
+%   -  `\lparen` := `\left(`       `\rparen` := `\right)`
+%   -  `\lbrace` := `\{`           `\rbrace` := `\}`
+%   -    ...     :=  ...              ...    :=  ...
+%
+%   -  `\bm` preserves spacing
+%   -  `\mathlarger`  and  `\mathsmaller`  do *not* preserve spacing
+%   -  `\bm{\left<}`  works,    `\left\bm{<}`  does not work
+%
+%   -  `\implies`    :=  `==>`
+%   -  `\impliedby`  :=  `<==`
+%
+%   -  `\DeclarePairedDelimiter{cmd}{leftdelim}{rightdelim}`
+%   -  `\DeclarePairedDelimiterX{cmd}[args]{leftdelim}{rightdelim}{body}`
+%   -  `\DeclarePairedDelimiterXPP{cmd}[args]{precode}{leftdelim}{rightdelim}{postcode}{body}`
+%
+%   -  `\bm{ \sqrt{\mbox{\unboldmath$xyz$}} }`
+%   -  `\bm{ \unboldmath{xyz}} }`
+%   -  `\bm{\sqrtsign}{xyz}`
+%
+%   -  `\bm{\mathord{\mathlarger{\left(\right.}}} #1  \bm{\mathord{\mathlarger{\left.\right)}}}`
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                                 letters                               %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\Rn{\mathbb{R}^{n}}
-\def\Rm{\mathbb{R}^{m}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                           custom functions                            %%%%
+%%%%                               functions                               %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
-% switch statement implementation
+%  switch statement implementation
 %
 \newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
 \newcommand{\caseof}[2]{#1 #2}
 \newenvironment{switch}[1]{\renewcommand{\caseof}{\ifequals{#1}}}{}
+
 
 %
 % sequence generator [SEP] {LIST} [FUNC]
@@ -47,6 +64,7 @@
 		\fi%
 	}%
 }%
+
 
 % %
 % % range generator [START] {VAR} [STOP] [SKIPABOVE]
@@ -108,40 +126,460 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                           custom symbols                              %%%%
+%%%%                       math operators & commands                       %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
-%  ??
+%  General
 %
-%\makeatletter
+\newcommand{\Part}[1]{\vspace{.10in}{\bf (#1)}}
+\newcommand{\Justif}[2]{&{#1}&\text{#2}}
+\newcommand{\Justifyy}[2]{&{#1}&#2}
+\newcommand{\IndentItem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
+\newcommand{\Question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\normalfont\large\bfseries#1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\newcommand{\Solution}{\textbf{\normalsize\ Solution}}
+
+
+%
+%  Basics
+%
+\DeclarePairedDelimiter{\parens}{\lparen}{\rparen}
+\DeclarePairedDelimiter{\braces}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\bracks}{\lbrack}{\rbrack}
+\DeclarePairedDelimiter{\verts}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\dverts}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\angles}{\langle}{\rangle}
+\DeclarePairedDelimiter{\ceils}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floors}{\lfloor}{\rfloor}
+\DeclarePairedDelimiterX{\tuples}[2]{\lparen}{\rparen}{#1,\,#2}
+\newcommand{\abs}[1]{\verts*{#1}}
+
+\DeclarePairedDelimiterXPP{\Parens}[1]{\bm\begingroup}{\mathlarger{(}}{\mathlarger{)}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Braces}[1]{\bm\begingroup}{\mathlarger{\lbrace}}{\mathlarger{\rbrace}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Bracks}[1]{\bm\begingroup}{\mathlarger{[}}{\mathlarger{]}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Verts}[1]{\bm\begingroup}{\mathlarger{\lvert}}{\mathlarger{\rvert}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Dverts}[1]{\bm\begingroup}{\mathlarger{\lVert}}{\mathlarger{\rVert}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Angles}[1]{\bm\begingroup}{\mathlarger{\langle}}{\mathlarger{\rangle}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Ceils}[1]{\bm\begingroup}{\mathlarger{\lceil}}{\mathlarger{\rceil}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Floors}[1]{\bm\begingroup}{\mathlarger{\lfloor}}{\mathlarger{\rfloor}}{\endgroup}{\mbox{\unboldmath{$#1$}}}
+\DeclarePairedDelimiterXPP{\Tuples}[2]{\bm\begingroup}{\mathlarger{(}}{\mathlarger{)}}{\endgroup}{\mbox{\unboldmath{$#1,\,#2$}}}
+\newcommand{\Abs}[1]{\Verts*{#1}}
+
+
+%
+%  Logic
+%
+\newcommand{\suchthat}{\mathrel{\mathsf{st}}}
+\newcommand{\then}{\bm{\mathop{\mathlarger{,}}}\,}
+\newcommand{\given}{\bm{\mathord{\mathlarger{\left. \middle\vert \right.}}}}
+\newcommand{\by}{\bm{\mathord{\mathlarger{;}}}\ }
+
+
+%
+%  Sets
+%
+%\DeclareMathOperator*{\setunion}{\cup} % TODO
+%\DeclareMathOperator*{\setintersection}{\cap} % TODO
+%\DeclareMathOperator*{\setdifference}{\mathlarger{\setminus}} % TODO
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+
+% TODO Set TODO
+\newcommand{\Set}[1]{\bm{\mathord{\mathlarger{\mleft\lbrace\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrace}}}}
+
+%\newcommandx{\SetUnion}[2]{} % TODO
+%\newcommandx{\SetIntersection}[2]{} % TODO
+%\newcommandx{\SetDifference}[2]{} % TODO
+\newcommand{\PowerSet}[1]{\powerset\parens*{#1}}
+\newcommand{\Cardinality}[1]{\verts*{#1}}
+
+
+%
+%  Functions
+%
+\DeclareMathOperator{\inverse}{^{-1}}
+\newcommand{\Inverse}[1]{{#1}\inverse}
+
+\newcommandx{\Func}[2][1=f]{\operatorname{#1} \parens*{#2}}
+\newcommandx{\FuncComp}[3][1=f, 2=g]{\parens*{#2 \circ #1} \parens*{#3}}
+
+\newcommandx{\Inj}[1][1=r]{% % TODO (find better symbol)
+  \begin{switch}{#1}
+    \caseof{l}{\hookleftarrow}
+    \caseof{r}{\hookrightarrow}
+    \caseof{b}{\hookleftrightarrow}
+  \end{switch}
+}
+\newcommandx{\Surj}[1][1=r]{% % TODO (find better symbol)
+  \begin{switch}{#1}
+    \caseof{l}{\leftarrowtriangle} % {req: stmaryrd}
+    \caseof{r}{\rightarrowtriangle} % {req: stmaryrd}
+    \caseof{b}{\leftrightarrowtriangle} % {req: stmaryrd}
+  \end{switch}
+}
+\newcommand{\Bij}{\leftrightarrow} % TODO (find better symbol)
+
+
+%
+%  Combinatorics
+%
+\newcommand{\perm}[1]{#1!}
+\newcommand{\kperm}[3]{% % TODO (change to \newcommandx{}... )
+  \begin{switch}{#1}
+    \caseof{rep}{\frac{#2!}{#2^{#3}\ \parens*{#2-#3}!}}
+    \caseof{norep}{\frac{#2!}{\parens*{#2-#3}!}}
+    \caseof{}{#2^{#3}}
+  \end{switch}
+}
+% \newcommand{\kperm}[2]{\frac{#1!}{(#1-#2)!}}
+\newcommand{\kselect}[2]{\frac{#1!}{#2!\ \parens*{#1-#2}!}}
+\renewcommand{\choose}[2]{\binom{#1}{#2}}
+
+
+%
+%  Algorithms
+%
+\newcommand{\Alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+
+%
+%  Asymptotic Analysis
+%
+\DeclareMathOperator{\bigo}{\mathcal{O}}
+\DeclareMathOperator{\bigomega}{\Omega}
+\DeclareMathOperator{\bigtheta}{\Theta}
+
+\newcommand{\BigO}[1]{\bigo \parens*{#1}}
+\newcommand{\BigOmega}[1]{\bigomega \parens*{#1}}
+\newcommand{\BigTheta}[1]{\bigtheta \parens*{#1}}
+
+\newcommandx{\AsymptoticBound}[2][1=upper]{%
+  \begin{switch}{#1}% bound: {upper, lower, both}
+    \caseof{upper}{\BigO{#2}}
+    \caseof{lower}{\BigOmega{#2}}
+    \caseof{both}{\BigTheta{#2}}
+  \end{switch}
+}
+
+
+%
+%  Linear Algebra
+%
+\DeclareMathOperator{\spans}{\mathrm{span}}
+\DeclareMathOperator{\nullity}{\mathrm{nullity}}
+\DeclareMathOperator{\rank}{\mathrm{rank}}
+\DeclareMathOperator{\nullspace}{\mathrm{nullspace}}
+\DeclareMathOperator{\colspace}{\mathrm{colspace}}
+\DeclareMathOperator{\rowspace}{\mathrm{rowspace}}
+\DeclareMathOperator{\range}{\mathrm{range}}
+\DeclareMathOperator{\trace}{\mathrm{Tr}}
+\DeclareMathOperator{\identity}{\mathbb{I}}
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{\ifblank{#1}{\:\cdot\:}{#1}}
+\DeclarePairedDelimiterXPP{\pnorm}[2]{}{\lVert}{\rVert}{\ifblank{#2}{_{L^{2}}}{_{L^{#2}}}}{\ifblank{#1}{\:\cdot\:}{#1}}
+\DeclarePairedDelimiterX{\innerprod}[2]{\langle}{\rangle}{#1,\,#2}
+
+\let\arrowvec\vec
+\renewcommand{\vec}[1]{\bm{#1}}
+
+\newcommand{\Scalar}[1]{#1}
+\newcommand{\Vector}[1]{\vec{#1}}
+\newcommand{\Matrix}[1]{\bm{#1}}
+\newcommand{\T}[0]{^{T}\!}
+\newcommand{\Transpose}[1]{\matrix{#1}\T}
+\newcommand{\CT}[0]{^{\dag}}
+\newcommand{\ConjugateTranpose}[1]{\matrix{#1}\CT}
+
+
+%
+%  Calculus
+%
+\DeclareMathOperator{\dx}{\mathrm{d}x}
+%\DeclareMathOperator*{}{}
+
+\newcommand{\Deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+\newcommand{\PDeriv}[2]{\frac{\partial}{\partial\ #1} (#2)}
+
+
+%
+%  Physics
+%
+\newcommand{\uvec}[1]{\bm{\hat{\textbf{#1}}}}
+\newcommand{\ivec}{\uvec{\i}}
+\newcommand{\jvec}{\uvec{\j}}
+\newcommand{\kvec}{\uvec{k}}
+
+
+%
+%  Probability Theory
+%
+\newcommand{\indep}{\bm{\mathbin{\mathlarger{\perp}}}}
+\newcommand{\condindep}{\bm{\mathbin{\mathlarger{\dperp}}}}
+
+\DeclareMathOperator{\pdf}{f} % TODO
+\DeclareMathOperator{\pmf}{p} % TODO
+\DeclareMathOperator{\cdf}{F} % TODO
+
+\DeclareMathOperator{\probability}{\mathbf{P}}
+\DeclareMathOperator{\expectation}{\mathbb{E}}
+\DeclareMathOperator{\variance}{\mathrm{Var}}
+\DeclareMathOperator{\covariance}{\mathrm{Cov}}
+\DeclareMathOperator{\bias}{\mathrm{Bias}}
+
+
+% TODO Prob TODO
+
+% \renewcommand{\given}[1]{\mleft. \vphantom{##1} \;\bm{\mathord{\mathlarger{\middle\vert}}}\; \vphantom{##1} \mright.}
+%\newcommand{\prob}[1]{\probability \bm{\mleft\lparen\vphantom{#1}\mright.} #1 \bm{\mleft.\vphantom{#1}\mright\rparen}}
+\newcommand{\Prob}[1]{\probability \bm{\mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}}
+\newcommand{\Exp}[1]{\expectation \bracks*{#1}}
+\newcommand{\Var}[1]{\variance \parens*{#1}}
+\newcommand{\Cov}[1]{\covariance \parens*{#1}}
+\newcommand{\Bias}[1]{\bias \parens*{#1}}
+
+\newcommandx{\PDF}[3][1=f, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
+\newcommandx{\PMF}[3][1=p, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
+\newcommandx{\CDF}[3][1=F, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
+
+
+%
+%  Indicator Variables
+%
+\DeclareMathOperator{\zero}{\mathds{0}}
+\DeclareMathOperator{\one}{\mathds{1}}
+
+\newcommandx{\indicator}[1][1=I]{\operatorname{\mathds{#1}}}
+
+
+%
+%  Discrete Univariate Distributions
+%
+\DeclareMathOperator*{\@macros@distribution@bernoulli@name}{\textrm{Bern}}
+\DeclareMathOperator*{\@macros@distribution@binomial@name}{\textrm{Bin}}
+\DeclareMathOperator*{\@macros@distribution@geometric@name}{\textrm{Geom}}
+\DeclareMathOperator*{\@macros@distribution@negativebinomial@name}{\textrm{NBin}}
+\DeclareMathOperator*{\@macros@distribution@hypergeometric@name}{\textrm{HGeom}}
+\DeclareMathOperator*{\@macros@distribution@poisson@name}{\textrm{Pois}}
+%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
+
+\newcommandx{\@macros@distribution@bernoulli@pmf}[1]{} % TODO
+\newcommandx{\@macros@distribution@binomial@pmf}[1]{} % TODO
+\newcommandx{\@macros@distribution@geometric@pmf}[1]{} % TODO
+\newcommandx{\@macros@distribution@negativebinomial@pmf}[1]{} % TODO
+\newcommandx{\@macros@distribution@hypergeometric@pmf}[1]{} % TODO
+\newcommandx{\@macros@distribution@poisson@pmf}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@pmf}[1]{}
+
+\newcommandx{\@macros@distribution@bernoulli@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@binomial@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@geometric@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@negativebinomial@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@hypergeometric@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@poisson@expectation}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
+
+\newcommandx{\@macros@distribution@bernoulli@varince}[1]{} % TODO
+\newcommandx{\@macros@distribution@binomial@varince}[1]{} % TODO
+\newcommandx{\@macros@distribution@geometric@varince}[1]{} % TODO
+\newcommandx{\@macros@distribution@negativebinomial@varince}[1]{} % TODO
+\newcommandx{\@macros@distribution@hypergeometric@varince}[1]{} % TODO
+\newcommandx{\@macros@distribution@poisson@varince}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+
+\newcommandx{\@macros@distribution@bernoulli}[1]{} % TODO
+\newcommandx{\@macros@distribution@binomial}[1]{} % TODO
+\newcommandx{\@macros@distribution@geometric}[1]{} % TODO
+\newcommandx{\@macros@distribution@negativebinomial}[1]{} % TODO
+\newcommandx{\@macros@distribution@hypergeometric}[1]{} % TODO
+\newcommandx{\@macros@distribution@poisson}[1]{} % TODO
+%\newcommandx{@macros@distribution@<>}[1]{}
+
+
+%
+%  Discrete Multivariate Distributions
+%
+\DeclareMathOperator*{\@macros@distribution@categorical@name}{\textrm{Cat}}
+%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
+
+\newcommandx{\@macros@distribution@categorical@pmf}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@pmf}[1]{}
+
+\newcommandx{\@macros@distribution@categorical@expectation}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
+
+\newcommandx{\@macros@distribution@categorical@varince}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+
+\newcommandx{\@macros@distribution@categorical}[1]{} % TODO
+%\newcommandx{@macros@distribution@<>}[1]{}
+
+
+%
+%  Continuous Univariate Distributions
+%
+\DeclareMathOperator*{\@macros@distribution@normal@name}{\textrm{N}}
+\DeclareMathOperator*{\@macros@distribution@uniform@name}{\textrm{Unif}}
+\DeclareMathOperator*{\@macros@distribution@exponential@name}{\textrm{Expo}}
+\DeclareMathOperator*{\@macros@distribution@gamma@name}{\textrm{Gamma}}
+\DeclareMathOperator*{\@macros@distribution@beta@name}{\textrm{Beta}}
+\DeclareMathOperator*{\@macros@distribution@chisquare@name}{\chi^2}
+\DeclareMathOperator*{\@macros@distribution@student@name}{\textrm{Stu}}
+\DeclareMathOperator*{\@macros@distribution@weibull@name}{\textrm{Wbl}}
+\DeclareMathOperator*{\@macros@distribution@multinomial@name}{\textrm{Mult}}
+%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
+
+\newcommandx{\@macros@distribution@normal@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@uniform@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@exponential@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@gamma@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@beta@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@chisquare@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@student@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@weibull@cdf}[1]{} % TODO
+\newcommandx{\@macros@distribution@multinomial@cdf}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@cdf}[1]{}
+
+\newcommandx{\@macros@distribution@normal@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@uniform@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@exponential@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@gamma@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@beta@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@chisquare@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@student@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@weibull@expectation}[1]{} % TODO
+\newcommandx{\@macros@distribution@multinomial@expectation}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
+
+\newcommandx{\@macros@distribution@normal@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@uniform@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@exponential@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@gamma@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@beta@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@chisquare@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@student@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@weibull@variance}[1]{} % TODO
+\newcommandx{\@macros@distribution@multinomial@variance}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+
+\newcommandx{\@macros@distribution@normal}[1]{} % TODO
+\newcommandx{\@macros@distribution@uniform}[1]{} % TODO
+\newcommandx{\@macros@distribution@exponential}[1]{} % TODO
+\newcommandx{\@macros@distribution@gamma}[1]{} % TODO
+\newcommandx{\@macros@distribution@beta}[1]{} % TODO
+\newcommandx{\@macros@distribution@chisquare}[1]{} % TODO
+\newcommandx{\@macros@distribution@student}[1]{} % TODO
+\newcommandx{\@macros@distribution@weibull}[1]{} % TODO
+\newcommandx{\@macros@distribution@multinomial}[1]{} % TODO
+%\newcommandx{\@macros@distribution@<>}[1]{}
+
+
+%
+%  Continuous Multivariate Distributions
+%
+%\DeclareMathOperator*{@macros@distribution@<>@name}{\textrm{}}
+
+%\newcommandx{\@macros@distribution@<>@cdf}[1]{}
+
+%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
+
+%\newcommandx{\@macros@distribution@<>@varince}[1]{}
+
+%\newcommandx{\@macros@distribution@<>}[1]{}
+
+
+%
+%  Statistical Estimation
+%
+\newcommand{\mean}{\bar}
+\newcommand{\widemean}{\overline}
+\newcommand{\median}{\tilde}
+\newcommand{\widemedian}{\widetilde}
+\newcommand{\sample}[1]{\hat{#1}}
+\newcommand{\population}[1]{#1^{\ast}}
+\newcommand{\param}[1]{\mathord{\mathsmaller{\mathrm{#1}}}}
+\newcommand{\randvar}[1]{\mathord{\mathlarger{\mathsf{#1}}}}
+\newcommand{\mle}{\mathrm{MLE}}
+\newcommand{\map}{\mathrm{MAP}}
+
+
+%
+%  Optimization
+%
+\DeclareMathOperator*{\maximize}{\mathrm{maximize}}
+\DeclareMathOperator*{\minimize}{\mathrm{minimize}}
+\DeclareMathOperator*{\subjectto}{\mathrm{subject}\ \mathrm{to}}
+\DeclareMathOperator*{\argmax}{\arg\max}
+\DeclareMathOperator*{\argmin}{\arg\min}
+
+
+%
+%  Convex Optimization
+%
+\DeclareMathOperator*{\convex}{\mathrm{convex}}
+\DeclareMathOperator*{\concave}{\mathrm{concave}}
+%\DeclareMathOperator*{}{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                symbols                                %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%
+%  I dislike the default abbreviation of infinity...
+%
+\newcommand{\infinity}{\infty}
+\newcommand{\posinf}{+\infty}
+\newcommand{\neginf}{-\infty}
+
+%
+%  better qed symbol
+%
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+
+%
+%  ?
+%
 \newcommand{\cpm}{\mathbin{\mathpalette\@cpm\relax}}
 \newcommand{\@cpm}[2]{\ooalign{%
   \raisebox{.1\height}{$#1+$}\cr
   \smash{\raisebox{-.6\height}{$#1-$}}\cr}}
-%\makeatother
 
-%
-%  custom cases
-%
-\newenvironment{case}[1]{\left\{\begin{array}{lr}#1}{\end{array}\right\}}
 
-%
-%  matrix
-%
-%\makeatletter
+% %
+% %  matrix?
+% %
 % \renewcommand*\env@matrix[1][*\c@MaxMatrixCols\ c]{%
-%   \hskip -\arraycolsep\
-%   \let\@ifnextchar\new@ifnextchar\
-%   \array{#1}}
-%\makeatother
+% \hskip -\arraycolsep\
+% \let\@ifnextchar\new@ifnextchar\
+% \array{#1}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                             custom fonts                              %%%%
+%%%%                                fonts                                  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\smallmathcal}[1]{
+%
+%  importing v symbol from txfonts
+%
+\DeclareSymbolFont{matha}{OML}{txmi}{m}{it}% txfonts
+\DeclareMathSymbol{\varv}{\mathord}{matha}{118}
+
+
+%
+%  importing double stroke \perp symbol from txfonts
+%
+\DeclareSymbolFont{symbolsC}{U}{txsyc}{m}{n}
+\SetSymbolFont{symbolsC}{bold}{U}{txsyc}{bx}{n}
+\DeclareFontSubstitution{U}{txsyc}{m}{n}
+\DeclareMathSymbol{\dperp}{\mathrel}{symbolsC}{121}
+
+
+%
+%  lowercase mathcal font
+%
+\newcommand{\smallmathcal}[1]{%
   \mathchoice
     {{\scriptstyle\mathcal{\uppercase{#1}}}} % \displaystyle
     {{\scriptstyle\mathcal{\uppercase{#1}}}} % \textstyle
@@ -149,152 +587,24 @@
     {\scalebox{.7}{\(\scriptscriptstyle\mathcal{\uppercase{#1}}\)}} % \scriptscriptstyle
 }
 
-\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+
+%
+%  math font abbreviations
+%
 \newcommand{\mbf}[1]{\mathbf{#1}}
 \newcommand{\mbb}[1]{\mathbb{#1}}
 \newcommand{\mcal}[1]{\ifthenelse{\isin{#1}{AÂBCÇDEFGĞHIİÎJKLMNOÖÔPRSŞTUÜÛVYZ}}{\mathcal{#1}}{\smallmathcal{#1}}}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                           custom commands                             %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%
-%  General
-%
-%\ifdef{\part}{\renewcommand{\part}[1]{\vspace{.10in}{\bf (#1)}}}{}
-\renewcommand{\part}[1]{\vspace{.10in}{\bf (#1)}}
-\newcommand{\justif}[2]{&{#1}&\text{#2}}
-\newcommand{\justifyy}[2]{&{#1}&#2}
-\newcommand{\indentitem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
-\newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
-\noindent{\normalfont\large\bfseries#1: #2} \vspace{0.5em}
-\hrule \vspace{.10in}}
-\newcommand{\solution}{\textbf{\normalsize\ Solution}}
-
-
-%
-%  Algorithms
-%
-\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
-
-%
-%  Basic Math
-%
-
-\newcommand{\lcase}{\left \{}
-\newcommand{\rcase}{\right \}}
-%\renewcommand{\log}[2][]{\operatorname{log}_{#1} #2}
-
-%											% \set{}		--	normal
-%  Sets								% \set*{}		--	delimiters adjust to size of content
-%											% \set[\big]{}	--	manual adjustment as optional argument
-
-% \DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\setaux#1}
-%  \def\setaux#1|{#1\;\delimsize\vert\;}
-
-\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
-\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
-{\setargsaux#1}
-\NewDocumentCommand{\setargsaux}{mm}
-{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
-
-\newcommand{\powerset}[1]{\mathcal{P}(#1)}
-\newcommand{\cardinality}[1]{\left\vert#1\right\vert}
-
-\newcommand{\suchthat}{\text{ s.t. }}
-% \newcommand{\implies}{\Longrightarrow}
-
-% \newcommand{\union}
-% \newcommand{\intersection}
-% \newcommand{\difference}
-
-
-%
-% Functions
-%
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\renewcommand{\qedsymbol}{$\blacksquare$}
-
-%
-%  Combinatorics .
-%
-\newcommand{\kperm}[3]{
-  \begin{switch}{#1}
-    \caseof{rep}{\frac{#2!}{#2^{#3}\ (#2-#3)!}}
-    \caseof{norep}{\frac{#2!}{(#2-#3)!}}
-    \caseof{}{#2^{#3}}
-  \end{switch}
-}
-\newcommand{\perm}[1]{#1!}
-% \newcommand{\kperm}[2]{\frac{#1!}{(#1-#2)!}}
-\newcommand{\kselect}[2]{\frac{#1!}{#2!\ (#1-#2)!}}
-\renewcommand{\choose}[2]{\binom{#1}{#2}}
-
-%
-%  Probability
-%
-\newcommand{\Exp}[1]{\operatorname{\mathbf{E}}\left[#1\right]}
-\newcommand{\Var}[1]{\operatorname{Var}\left[#1\right]}
-\newcommand{\Cov}[1]{\operatorname{Cov}\left(#1\right)}
-\newcommand{\Bias}{\operatorname{Bias}}
-\newcommand{\Prob}[1]{\operatorname{\mathbf{P}}\left(#1\right)}
-\newcommand{\pmf}[2]{\mathlarger{p}_{#1}\left(#2\right)}
-\newcommand{\PMF}[1]{\mathcal{P}\left(\mkseq[\cap]{#1}[\set] \right)}
-
-\newcommand{\MLE}{\rm MLE}
-\newcommand{\MAP}{\rm MAP}
-
-%
-%  Statistics
-%
-
-% statistics: distributions
-\newcommand{\Bern}{\textrm{Bern}}  % bernoulli
-\newcommand{\Bin}{\textrm{Bin}}   % binomial
-\newcommand{\Geom}{\textrm{Geom}}  % geometric
-\newcommand{\NBin}{\textrm{NBin}}  % negative binomial
-\newcommand{\HGeom}{} % hypergeometric
-\newcommand{\Pois}{\textrm{Pois}} % poisson
-\newcommand{\Unif}{\textrm{Unifo}}   % uniform
-\newcommand{\Nor}{}  % normal
-\newcommand{\Expo}{\textrm{Expo}}  % exponential
-\newcommand{\Gamm}{\textrm{Gamma}} % gamma
-\newcommand{\Beta}{\textrm{Beta}}  % beta
-\newcommand{\LgNor}{} % log-normal
-\newcommand{\ChiSq}{}   % chi-square
-\newcommand{\Stu}{}   % student-t
-\newcommand{\Wbl}{}   % weibull
-\newcommand{\Mult}{\textrm{Mult}} % multinomial
-
-
-%
-%  Calculus
-%
-\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
-\newcommand{\pderiv}[2]{\frac{\partial}{\partial\ #1} (#2)}
-\newcommand{\dx}{\mathrm{d}x}
-
-%
-%  Linear Algebra
-%
-\newcommand{\abs}[1]{\left\vert#1\right\vert}
-\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
-\newcommand{\pnorm}[2]{\left\Vert#1\right\Vert_{L^{#2}}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%                          custom environments                          %%%%
+%%%%                              environments                             %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \newenvironment{boxed}%
-% 	{%
-%     \begin{adjustbox}{minipage=.85\textwidth,precode=\dbox}
-% 	}{%
-%     \end{adjustbox}
-% 	}%
+%
+%  cases
+%
+\newenvironment{case}[1]{\left\lbrace\begin{array}{lr}#1}{\end{array}\right\rbrace}
+
 
 % %
 % % Create boxed Environment
@@ -305,6 +615,7 @@
 % 	}{%
 % 		\end{adjustbox}
 % 	}%
+
 
 %
 % Create boxedSolution Environment
@@ -320,6 +631,7 @@
     \end{solution}
   }%
 
+
 %
 % Create boxedProof Environment
 %
@@ -334,10 +646,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%              LSTLISTINGS PACKAGE (for sml pseudocode)                 %%%%
+%%%%                             SML Pseudocode                            %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \RequirePackage{listings}
 
 \newdimen\zzsize
 \zzsize=11pt
@@ -350,7 +660,7 @@
 \settowidth{\zzlstwidth}{{\basicstyle~}}
 \newcommand{\lcm}{}
 
-\lstset{
+\lstset{%
   xleftmargin=5.0ex,
   basewidth=\zzlstwidth,
   basicstyle=\basicstyle,
@@ -380,14 +690,6 @@
            {'b}{{$\beta$}}1
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%
-% Tables
-%
-% \usepackage{array}
-%
-% \newcolumntype{M}[1]{>{$\displaystyle\qquad}p{#1}<{$}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
