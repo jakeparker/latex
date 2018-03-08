@@ -37,12 +37,14 @@
     - {xifthen, xparse, xargs, xintexpr, xfrac, xstring}
     - {dashbox, adjustbox, fancybox}
     - {mathtools, etoolbox}
+    - {stackengine, scalerel}
     - {gensymb, stmaryrd, relsize, bm, dsfont, txfonts}
     - {array}
     - {pgffor}
     - {listings}
 
 # Other Useful Packages
+  - {(listings, minted)}
   - {(array), makecell, multirow, tabularx}
   - {enumerate, enumitem}
   - {cancel}
