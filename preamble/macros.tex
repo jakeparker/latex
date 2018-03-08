@@ -1,3 +1,8 @@
+% TODO: migrate from LaTeX to LuaTex! 
+%   - (1.0 version is finally out)
+%   - (also support for unicode symbols! (via unicode-math.sty) (i.e. type '\sigma + tab' --> σ instead of \sigma)!
+%   - (I've had my fill of Tex... to say the least... )
+
 % Required *.tex Files:
 %   - dependencies.tex
 
@@ -18,17 +23,14 @@
 %   -  `\mathord`  :  var
 %   -   always wrap a call to `\mathlarger` or `\mathsmaller` with one of the above
 %
-%   -  `\lbrack` := `\left[`       `\rbrack` := `\right]`
-%   -  `\lparen` := `\left(`       `\rparen` := `\right)`
-%   -  `\lbrace` := `\{`           `\rbrace` := `\}`
-%   -    ...     :=  ...              ...    :=  ...
+%   -  `\lbrack` := `[`       `\rbrack` := `]`
+%   -  `\lparen` := `(`       `\rparen` := `)`
+%   -  `\lbrace` := `\{`      `\rbrace` := `\}`
+%   -    ...     :=  ...         ...    :=  ...
 %
 %   -  `\bm` preserves spacing
 %   -  `\mathlarger`  and  `\mathsmaller`  do *not* preserve spacing
 %   -  `\bm{\left<}`  works,    `\left\bm{<}`  does not work
-%
-%   -  `\implies`    :=  `==>`
-%   -  `\impliedby`  :=  `<==`
 %
 %   -  `\DeclarePairedDelimiter{cmd}{leftdelim}{rightdelim}`
 %   -  `\DeclarePairedDelimiterX{cmd}[args]{leftdelim}{rightdelim}{body}`
@@ -48,15 +50,28 @@
 %
 %  General
 %
-\newcommand{\Part}[1]{\vspace{.10in}{\bf (#1)}}
-\newcommand{\Justif}[2]{&{#1}&\text{#2}}
-\newcommand{\Justifyy}[2]{&{#1}&#2}
-\newcommand{\IndentItem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
-\newcommand{\Question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
+%\newcommand{\part}[1]{\vspace{.10in}{\bf (#1)}}
+\newcommand{\justif}[2]{&{#1}&\text{#2}}
+\newcommand{\justifyy}[2]{&{#1}&#2}
+\newcommand{\indentitem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
+\newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
 \noindent{\normalfont\large\bfseries#1: #2} \vspace{0.5em}
 \hrule \vspace{.10in}}
-\newcommand{\Solution}{\textbf{\normalsize\ Solution}}
+\newcommand{\solution}{\textbf{\normalsize\ Solution}}
 
+% \newcommand{\sectionheading}[1]{%
+%   \noindent
+%   \makebox[0pt][l]{\rule[-.2\baselineskip]{\linewidth}{.5mm}}%
+%   \textbf{#1}\par\nobreak
+% }
+
+% \noindent\makebox[\linewidth]{\rule{\linewidth}{0.5pt}}
+\newcommand{\horizontal}[1][\medskipamount]{%
+  \par
+  \vspace*{\dimexpr-\parskip-\baselineskip+#1}
+  \noindent\makebox[\linewidth]{\rule{\linewidth}{0.5pt}}\par
+  \vspace*{\dimexpr-\parskip-.5\baselineskip+#1}
+}%
 
 %
 %  Basics
@@ -87,10 +102,13 @@
 %
 %  Logic
 %
-\newcommand{\suchthat}{\mathrel{\mathsf{st}}}
-\newcommand{\then}{\bm{\mathop{\mathlarger{,}}}\,}
+\newcommand{\st}{\mathrel{\mathsf{s}\centerdot\mathsf{t}\centerdot}}
+\newcommand{\suchthat}{\bm{\mathrel{\mathlarger{\hollowcolon}}}}
+\newcommand{\then}{\bm{\mathord{\mathlarger{,}}}\ }
 \newcommand{\given}{\bm{\mathord{\mathlarger{\left. \middle\vert \right.}}}}
 \newcommand{\by}{\bm{\mathord{\mathlarger{;}}}\ }
+\newcommand{\as}{\bm{\mathrel{\mathlarger{\sim}}}}
+\newcommand{\eq}{{=}} % {\mathord{\mathsmaller{=}}}
 
 
 %
@@ -102,13 +120,21 @@
 \DeclareMathOperator{\powerset}{\mathcal{P}}
 
 % TODO Set TODO
-\newcommand{\Set}[1]{\bm{\mathord{\mathlarger{\mleft\lbrace\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrace}}}}
+\newcommand{\Set}[1]{\bm{\mathord{\mathlarger{\mleft\lbrace\vphantom{#1}\mright.}}} \!#1\! \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrace}}}}
 
 %\newcommandx{\SetUnion}[2]{} % TODO
 %\newcommandx{\SetIntersection}[2]{} % TODO
 %\newcommandx{\SetDifference}[2]{} % TODO
 \newcommand{\PowerSet}[1]{\powerset\parens*{#1}}
-\newcommand{\Cardinality}[1]{\verts*{#1}}
+\newcommand{\Card}[1]{\verts*{#1}} % cardinality
+
+
+%
+%  Indicator Variables / Events
+%
+\DeclareMathOperator{\zero}{\mathds{0}}
+\DeclareMathOperator{\one}{\mathds{1}}
+\newcommand{\indicator}[1]{\mathds{#1}}
 
 
 %
@@ -116,9 +142,13 @@
 %
 \DeclareMathOperator{\inverse}{^{-1}}
 \newcommand{\Inverse}[1]{{#1}\inverse}
+\newcommand{\f}{\operatorname{f}}
+\newcommand{\g}{\operatorname{g}}
+\newcommand{\of}{\circ}
 
-\newcommandx{\Func}[2][1=f]{\operatorname{#1} \parens*{#2}}
-\newcommandx{\FuncComp}[3][1=f, 2=g]{\parens*{#2 \circ #1} \parens*{#3}}
+% \newcommandx{\f}[2][1=f]{\operatorname{#1} \parens*{#2}}
+% \newcommandx{\g}[2][1=g]{\operatorname{#1} \parens*{#2}}
+% \newcommandx{\of}[3][1=f, 3=g]{\operatorname{\parens*{#3 \circ #1}} \parens*{#2}}
 
 \newcommandx{\Inj}[1][1=r]{% % TODO (find better symbol)
   \begin{switch}{#1}
@@ -178,6 +208,12 @@
   \end{switch}
 }
 
+%
+%  Matrices
+%
+\newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+\newcommand*{\horzbar}{\rule[.5ex]{2.5ex}{0.5pt}}
+
 
 %
 %  Linear Algebra
@@ -197,10 +233,11 @@
 
 \let\arrowvec\vec
 \renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\mat}[1]{\bm{\mathsf{#1}}} % \mathbf{} \uppercase{}
 
-\newcommand{\Scalar}[1]{#1}
-\newcommand{\Vector}[1]{\vec{#1}}
-\newcommand{\Matrix}[1]{\bm{#1}}
+% \newcommand{\Scalar}[1]{#1}
+% \newcommand{\Vector}[1]{\vec{#1}}
+% \newcommand{\Matrix}[1]{\bm{#1}}
 \newcommand{\T}[0]{^{T}\!}
 \newcommand{\Transpose}[1]{\matrix{#1}\T}
 \newcommand{\CT}[0]{^{\dag}}
@@ -210,11 +247,15 @@
 %
 %  Calculus
 %
-\DeclareMathOperator{\dx}{\mathrm{d}x}
-%\DeclareMathOperator*{}{}
 
-\newcommand{\Deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
-\newcommand{\PDeriv}[2]{\frac{\partial}{\partial\ #1} (#2)}
+% TODO : custom \derive & \pderive environments... or just import the *entire* `physics.sty` just for derivatives... ¡!
+% https://tex.stackexchange.com/questions/29179/partial-derivative-macro
+% https://tex.stackexchange.com/questions/22076/can-i-have-a-flexible-partial-derivative-macro
+% https://tex.stackexchange.com/questions/26680/followup-regarding-flexible-partial-derivative-macros
+% https://tex.stackexchange.com/questions/101092/an-even-more-flexible-derivative-macro/101109
+
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial\ #1} (#2)}
 
 
 %
@@ -242,165 +283,181 @@
 \DeclareMathOperator{\covariance}{\mathrm{Cov}}
 \DeclareMathOperator{\bias}{\mathrm{Bias}}
 
-
 % TODO Prob TODO
 
 % \renewcommand{\given}[1]{\mleft. \vphantom{##1} \;\bm{\mathord{\mathlarger{\middle\vert}}}\; \vphantom{##1} \mright.}
 %\newcommand{\prob}[1]{\probability \bm{\mleft\lparen\vphantom{#1}\mright.} #1 \bm{\mleft.\vphantom{#1}\mright\rparen}}
 \newcommand{\Prob}[1]{\probability \bm{\mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}}
-\newcommand{\Exp}[1]{\expectation \bracks*{#1}}
-\newcommand{\Var}[1]{\variance \parens*{#1}}
-\newcommand{\Cov}[1]{\covariance \parens*{#1}}
-\newcommand{\Bias}[1]{\bias \parens*{#1}}
+\newcommand{\Exp}[1]{\expectation \mathord{\mathlarger{\mleft\lbrack\vphantom{#1}\mright.}} #1 \mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrack}}}
+\newcommand{\Var}[1]{\variance \mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}} #1 \mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}
+\newcommand{\Cov}[1]{\covariance \mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}} #1 \mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}
+\newcommand{\Bias}[1]{\bias \mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}} #1 \mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}
 
 \newcommandx{\PDF}[3][1=f, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
 \newcommandx{\PMF}[3][1=p, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
 \newcommandx{\CDF}[3][1=F, 3=X]{{#1}_{#3} \parens*{#2}} % TODO
 
-
+% \NewDocumentCommand{\dist}{}{} % TODO TODO TODO
 %
-%  Indicator Variables
 %
-\DeclareMathOperator{\zero}{\mathds{0}}
-\DeclareMathOperator{\one}{\mathds{1}}
-
-\newcommandx{\indicator}[1][1=I]{\operatorname{\mathds{#1}}}
-
-
+% %
+% %  Discrete Univariate Distributions
+% %
+% \DeclareMathOperator*{\@macros@distributions@bernoulli@name}{\textrm{Bern}}
+% \DeclareMathOperator*{\@macros@distributions@binomial@name}{\textrm{Bin}}
+% \DeclareMathOperator*{\@macros@distributions@geometric@name}{\textrm{Geom}}
+% \DeclareMathOperator*{\@macros@distributions@negativebinomial@name}{\textrm{NBin}}
+% \DeclareMathOperator*{\@macros@distributions@hypergeometric@name}{\textrm{HGeom}}
+% \DeclareMathOperator*{\@macros@distributions@poisson@name}{\textrm{Pois}}
+% \DeclareMathOperator*{\@macros@distributions@categorical@name}{\textrm{Cat}}
+% %\DeclareMathOperator*{\@macros@distributions@<>@name}{\textrm{}}
 %
-%  Discrete Univariate Distributions
+% \newcommandx{\@macros@distributions@bernoulli@distribution}[][]{} % TODO
+% \newcommandx{\@macros@distributions@binomial@distribution}[2][1=n, 2=p]{ \@macros@distributions@binomial@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@geometric@distribution}[1][1=p]{ \@macros@distributions@geometric@name \parens*{ #1 } }
+% \newcommandx{\@macros@distributions@negativebinomial@distribution}[2][1=r, 2=p]{ \@macros@distributions@negativebinomial@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@hypergeometric@distribution}[3][1=r, 2=n, 3=N]{ \@macros@distributions@hypergeometric@name \parens*{ #1,\, #2,\, #3 } }
+% \newcommandx{\@macros@distributions@poisson@distribution}[1][1=\lambda]{ \@macros@distributions@poisson@name \parens*{ #1 } }
+% \newcommandx{\@macros@distributions@categorical@distribution}[1][]{ \@macros@distributions@categorical@name \parens*{ } } % TODO
+% %\\newcommandx{\@macros@distributions@<>@distribution}[][]{ \@macros@distributions@<>@name \parens*{ } }
 %
-\DeclareMathOperator*{\@macros@distribution@bernoulli@name}{\textrm{Bern}}
-\DeclareMathOperator*{\@macros@distribution@binomial@name}{\textrm{Bin}}
-\DeclareMathOperator*{\@macros@distribution@geometric@name}{\textrm{Geom}}
-\DeclareMathOperator*{\@macros@distribution@negativebinomial@name}{\textrm{NBin}}
-\DeclareMathOperator*{\@macros@distribution@hypergeometric@name}{\textrm{HGeom}}
-\DeclareMathOperator*{\@macros@distribution@poisson@name}{\textrm{Pois}}
-%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
-
-\newcommandx{\@macros@distribution@bernoulli@pmf}[1]{} % TODO
-\newcommandx{\@macros@distribution@binomial@pmf}[1]{} % TODO
-\newcommandx{\@macros@distribution@geometric@pmf}[1]{} % TODO
-\newcommandx{\@macros@distribution@negativebinomial@pmf}[1]{} % TODO
-\newcommandx{\@macros@distribution@hypergeometric@pmf}[1]{} % TODO
-\newcommandx{\@macros@distribution@poisson@pmf}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@pmf}[1]{}
-
-\newcommandx{\@macros@distribution@bernoulli@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@binomial@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@geometric@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@negativebinomial@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@hypergeometric@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@poisson@expectation}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
-
-\newcommandx{\@macros@distribution@bernoulli@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@binomial@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@geometric@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@negativebinomial@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@hypergeometric@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@poisson@variance}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@variance}[1]{}
-
-\newcommandx{\@macros@distribution@bernoulli}[1]{} % TODO
-\newcommandx{\@macros@distribution@binomial}[1]{} % TODO
-\newcommandx{\@macros@distribution@geometric}[1]{} % TODO
-\newcommandx{\@macros@distribution@negativebinomial}[1]{} % TODO
-\newcommandx{\@macros@distribution@hypergeometric}[1]{} % TODO
-\newcommandx{\@macros@distribution@poisson}[1]{} % TODO
-%\newcommandx{@macros@distribution@<>}[1]{}
-
-
+% \newcommandx{\@macros@distributions@bernoulli@pmf}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@binomial@pmf}[3][1=n, 2=p, 3=y]{ \choose{#1}{#3} {#2}^{#3} {\left\lparen 1 - #2 \right\rparen}^{#1-#3} }
+% \newcommandx{\@macros@distributions@geometric@pmf}[2][1=p, 2=y]{ #1 {\left\lparen 1 - #1 \right\rparen}^{#2 - 1} }
+% \newcommandx{\@macros@distributions@negativebinomial@pmf}[3][1=r, 2=p, 3=y]{ \choose{#3 - 1}{#1 - 1} {#2}^{#1} {\left\lparen 1 - #2 \right\rparen}^{#3 - #1} }
+% \newcommandx{\@macros@distributions@hypergeometric@pmf}[4][1=r, 2=n, 3=N, 4=k]{ \frac{ \choose{#1}{#4} \choose{#3 - #1}{#2 - #4} }{ \choose{#3}{#2} } }
+% \newcommandx{\@macros@distributions@poisson@pmf}[2][1=\lambda, 2=y]{ \frac{ {#1}^{#2} e^{-#1} }{ {#2}! } }
+% \newcommandx{\@macros@distributions@categorical@pmf}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@pmf}[1][]{}
 %
-%  Discrete Multivariate Distributions
+% \newcommandx{\@macros@distributions@bernoulli@expectation}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@binomial@expectation}[2][1=n, 2=p]{ #1#2 }
+% \newcommandx{\@macros@distributions@geometric@expectation}[1][1=p]{ \frac{1}{#1} }
+% \newcommandx{\@macros@distributions@negativebinomial@expectation}[2][1=r, 2=p]{ \frac{#1}{#2} }
+% \newcommandx{\@macros@distributions@hypergeometric@expectation}[3][1=r, 2=n, 3=N]{ \frac{#2#1}{#3} }
+% \newcommandx{\@macros@distributions@poisson@expectation}[1][1=\lambda]{ #1 }
+% \newcommandx{\@macros@distributions@categorical@expectation}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@expectation}[1][]{}
 %
-\DeclareMathOperator*{\@macros@distribution@categorical@name}{\textrm{Cat}}
-%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
-
-\newcommandx{\@macros@distribution@categorical@pmf}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@pmf}[1]{}
-
-\newcommandx{\@macros@distribution@categorical@expectation}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
-
-\newcommandx{\@macros@distribution@categorical@variance}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@variance}[1]{}
-
-\newcommandx{\@macros@distribution@categorical}[1]{} % TODO
-%\newcommandx{@macros@distribution@<>}[1]{}
-
-
+% \newcommandx{\@macros@distributions@bernoulli@variance}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@binomial@variance}[2][1=n, 2=p]{ #1#2 {\left\lparen 1 - #2 \right\rparen} }
+% \newcommandx{\@macros@distributions@geometric@variance}[1][1=p]{ \frac{1 - #1}{{#1}^{2}} }
+% \newcommandx{\@macros@distributions@negativebinomial@variance}[2][1=r, 2=p]{ \frac{ #1{\lparen1 - #2\rparen} }{ {#2}^{2} } }
+% \newcommandx{\@macros@distributions@hypergeometric@variance}[3][1=r, 2=n, 3=N]{ {\left\lparen#2\right\rparen} {\left\lparen\frac{#1}{#3}\right\rparen} {\left\lparen\frac{#3 - #1}{#3}\right\rparen} {\left\lparen\frac{#3 - #2}{#3 - 1}\right\rparen} }
+% \newcommandx{\@macros@distributions@poisson@variance}[1][1=\lambda]{ #1 }
+% \newcommandx{\@macros@distributions@categorical@variance}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@variance}[1][]{}
 %
-%  Continuous Univariate Distributions
+% \newcommandx{\@macros@distributions@bernoulli}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@binomial}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@geometric}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@negativebinomial}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@hypergeometric}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@poisson}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@categorical}[1][]{} % TODO
+% %\newcommandx{@macros@distributions@<>}[1][]{}
 %
-\DeclareMathOperator*{\@macros@distribution@normal@name}{\textrm{N}}
-\DeclareMathOperator*{\@macros@distribution@uniform@name}{\textrm{Unif}}
-\DeclareMathOperator*{\@macros@distribution@exponential@name}{\textrm{Expo}}
-\DeclareMathOperator*{\@macros@distribution@gamma@name}{\textrm{Gamma}}
-\DeclareMathOperator*{\@macros@distribution@beta@name}{\textrm{Beta}}
-\DeclareMathOperator*{\@macros@distribution@chisquare@name}{\chi^2}
-\DeclareMathOperator*{\@macros@distribution@student@name}{\textrm{Stu}}
-\DeclareMathOperator*{\@macros@distribution@weibull@name}{\textrm{Wbl}}
-\DeclareMathOperator*{\@macros@distribution@multinomial@name}{\textrm{Mult}}
-%\DeclareMathOperator*{\@macros@distribution@<>@name}{\textrm{}}
-
-\newcommandx{\@macros@distribution@normal@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@uniform@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@exponential@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@gamma@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@beta@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@chisquare@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@student@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@weibull@cdf}[1]{} % TODO
-\newcommandx{\@macros@distribution@multinomial@cdf}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@cdf}[1]{}
-
-\newcommandx{\@macros@distribution@normal@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@uniform@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@exponential@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@gamma@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@beta@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@chisquare@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@student@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@weibull@expectation}[1]{} % TODO
-\newcommandx{\@macros@distribution@multinomial@expectation}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
-
-\newcommandx{\@macros@distribution@normal@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@uniform@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@exponential@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@gamma@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@beta@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@chisquare@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@student@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@weibull@variance}[1]{} % TODO
-\newcommandx{\@macros@distribution@multinomial@variance}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>@variance}[1]{}
-
-\newcommandx{\@macros@distribution@normal}[1]{} % TODO
-\newcommandx{\@macros@distribution@uniform}[1]{} % TODO
-\newcommandx{\@macros@distribution@exponential}[1]{} % TODO
-\newcommandx{\@macros@distribution@gamma}[1]{} % TODO
-\newcommandx{\@macros@distribution@beta}[1]{} % TODO
-\newcommandx{\@macros@distribution@chisquare}[1]{} % TODO
-\newcommandx{\@macros@distribution@student}[1]{} % TODO
-\newcommandx{\@macros@distribution@weibull}[1]{} % TODO
-\newcommandx{\@macros@distribution@multinomial}[1]{} % TODO
-%\newcommandx{\@macros@distribution@<>}[1]{}
-
-
 %
-%  Continuous Multivariate Distributions
+% %
+% %  Discrete Multivariate Distributions
+% %
+% \DeclareMathOperator*{\@macros@distributions@multinomial@name}{\textrm{Mult}}
+% %\DeclareMathOperator*{\@macros@distributions@<>@name}{\textrm{}}
 %
-%\DeclareMathOperator*{@macros@distribution@<>@name}{\textrm{}}
-
-%\newcommandx{\@macros@distribution@<>@cdf}[1]{}
-
-%\newcommandx{\@macros@distribution@<>@expectation}[1]{}
-
-%\newcommandx{\@macros@distribution@<>@variance}[1]{}
-
-%\newcommandx{\@macros@distribution@<>}[1]{}
+% \newcommandx{\@macros@distributions@multinomial@distribution}[3][1=1, 2=\theta, 3=k]{ \@macros@distributions@multinomial@name \parens*{ } } % TODO
+% %\\newcommandx{\@macros@distributions@<>@distribution}[][]{ \@macros@distributions@<>@name \parens*{ } }
+%
+% \newcommandx{\@macros@distributions@multinomial@pmf}[4][1=1, 2=\theta, 3=k]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@pmf}[1][]{}
+%
+% \newcommandx{\@macros@distributions@multinomial@expectation}[4][1=1, 2=\theta, 3=k]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@expectation}[1][]{}
+%
+% \newcommandx{\@macros@distributions@multinomial@variance}[4][1=1, 2=\theta, 3=k]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@variance}[1][]{}
+%
+% \newcommandx{\@macros@distributions@multinomial}[4][1=1, 2=\theta, 3=k]{} % TODO
+% %\newcommandx{@macros@distributions@<>}[1][]{}
+%
+%
+% %
+% %  Continuous Univariate Distributions
+% %
+% \DeclareMathOperator*{\@macros@distributions@normal@name}{\mathcal{N}}
+% \DeclareMathOperator*{\@macros@distributions@uniform@name}{\textrm{Unif}}
+% \DeclareMathOperator*{\@macros@distributions@exponential@name}{\textrm{Expo}}
+% \DeclareMathOperator*{\@macros@distributions@gamma@name}{\textrm{Gamma}}
+% \DeclareMathOperator*{\@macros@distributions@beta@name}{\textrm{Beta}}
+% \DeclareMathOperator*{\@macros@distributions@chisquare@name}{\chi^2}
+% \DeclareMathOperator*{\@macros@distributions@student@name}{\textrm{Stu}}
+% \DeclareMathOperator*{\@macros@distributions@weibull@name}{\textrm{Wbl}}
+% %\DeclareMathOperator*{\@macros@distributions@<>@name}{\textrm{}}
+%
+% \newcommandx{\@macros@distributions@normal@distribution}[2][1=\mu, 2=\sigma^2]{ \@macros@distributions@normal@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@uniform@distribution}[2][1=\theta_1, 2=\theta_2]{ \@macros@distributions@uniform@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@exponential@distribution}[1][1=\lambda]{ \@macros@distributions@exponential@name \parens*{ #1 } }
+% \newcommandx{\@macros@distributions@gamma@distribution}[2][1=\alpha, 2=\beta]{ \@macros@distributions@gamma@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@beta@distribution}[2][1=\alpha, 2=\beta]{ \@macros@distributions@beta@name \parens*{ #1,\, #2 } }
+% \newcommandx{\@macros@distributions@chisquare@distribution}[1][1=\varv]{ \@macros@distributions@chisquare@name_{#1} }
+% \newcommandx{\@macros@distributions@student@distribution}[1][1=n]{ \@macros@distributions@student@name \parens*{ #1 } % TODO
+% \newcommandx{\@macros@distributions@weibull@distribution}[1][]{ \@macros@distributions@weibull@name \parens*{ } } % TODO
+% % \newcommandx{\@macros@distributions@<>@distribution}[][]{ \@macros@distributions@<>@name \parens*{ } }
+%
+% \newcommandx{\@macros@distributions@normal@cdf}[3][1=\mu, 2=\sigma^2, 3=x]{ \frac{1}{\sqrt{2\pi#2}} \exp {\left\lbrace \frac{ -{\left\lparen#3 - #1\right\rparen}^{2} }{ 2#2 } \right\rbrace} }
+% \newcommandx{\@macros@distributions@uniform@cdf}[3][1=\theta_1, 2=\theta_2, 3=x]{ \frac{1}{#2 - #1} }
+% \newcommandx{\@macros@distributions@exponential@cdf}[2][1=\lambda, 2=x]{ #1 e^{-#1#2} }
+% \newcommandx{\@macros@distributions@gamma@cdf}[3][1=\alpha, 2=\beta, 3=x]{ {\left\lbrack \frac{1}{\Gamma(#1) {#2}^{#1} } \right\rbrack} {#3}^{#1 - 1} e^{\sfrac{-#3}{#2} } }
+% \newcommandx{\@macros@distributions@beta@cdf}[3][1=\alpha, 2=\beta, 3=y]{ {\left\lbrack \frac{\Gamma(#1 + #2)}{\Gamma(#1) \Gamma(#2)} \right\rbrack} {#3}^{#1 - 1} {\left\lparen 1 - #3 \right\rparen}^{#2 - 1} }
+% \newcommandx{\@macros@distributions@chisquare@cdf}[2][1=\varv, 2=y]{ \frac{ {#2}^{(\sfrac{#1}{2})-1} e^{\sfrac{-#2}{2}} }{ 2^{\sfrac{#1}{2}} \Gamma(\sfrac{#1}{2}) } }
+% \newcommandx{\@macros@distributions@student@cdf}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@weibull@cdf}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@cdf}[1][]{}
+%
+% \newcommandx{\@macros@distributions@normal@expectation}[2][1=\mu, 2=\sigma^2]{ #1 }
+% \newcommandx{\@macros@distributions@uniform@expectation}[2][1=\theta_1, 2=\theta_2]{ \frac{#1 + #2}{2} }
+% \newcommandx{\@macros@distributions@exponential@expectation}[1][1=\lambda]{ \frac{1}{#1} }
+% \newcommandx{\@macros@distributions@gamma@expectation}[2][1=\alpha, 2=\beta]{ #1#2 }
+% \newcommandx{\@macros@distributions@beta@expectation}[2][1=\alpha, 2=\beta]{ \frac{#1}{#1 + #2} }
+% \newcommandx{\@macros@distributions@chisquare@expectation}[1][1=\varv]{ #1 }
+% \newcommandx{\@macros@distributions@student@expectation}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@weibull@expectation}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@expectation}[1][]{}
+%
+% \newcommandx{\@macros@distributions@normal@variance}[2][1=\mu, 2=\sigma^2]{ #2 }
+% \newcommandx{\@macros@distributions@uniform@variance}[2][1=\theta_1, 2=\theta_2]{} % TODO
+% \newcommandx{\@macros@distributions@exponential@variance}[2][1=\lambda]{ \frac{1}{{#1}^{2}} }
+% \newcommandx{\@macros@distributions@gamma@variance}[2][1=\alpha, 2=\beta]{ #1{#2}^{2}}
+% \newcommandx{\@macros@distributions@beta@variance}[2][1=\alpha, 2=\beta]{ \frac{#1#2}{ {\left\lparen #1 + #2 \right\rparen}^{2} {\left\lparen #1 + #2 + 1 \right\rparen} } }
+% \newcommandx{\@macros@distributions@chisquare@variance}[1][1=\varv]{ 2#1 }
+% \newcommandx{\@macros@distributions@student@variance}[1][]{} % TODO
+% \newcommandx{\@macros@distributions@weibull@variance}[1][]{} % TODO
+% %\newcommandx{\@macros@distributions@<>@variance}[1][]{}
+%
+% \newcommandx{\@macros@distributions@normal}[3][1=\mu, 2=\sigma^2]{} % TODO
+% \newcommandx{\@macros@distributions@uniform}[3][1=\theta_1, 2=\theta_2]{} % TODO
+% \newcommandx{\@macros@distributions@exponential}[2][1=\lambda]{} % TODO
+% \newcommandx{\@macros@distributions@gamma}[3][1=\alpha, 2=\beta]{} % TODO
+% \newcommandx{\@macros@distributions@beta}[3][1=\alpha, 2=\beta]{} % TODO
+% \newcommandx{\@macros@distributions@chisquare}[2][1=?]{} % TODO
+% \newcommandx{\@macros@distributions@student}[2][]{1=?} % TODO
+% \newcommandx{\@macros@distributions@weibull}[2][1=?]{} % TODO
+% %\newcommandx{\@macros@distributions@<>}[1][]{}
+%
+%
+% %
+% %  Continuous Multivariate Distributions
+% %
+% %\DeclareMathOperator*{@macros@distributions@<>@name}{\textrm{}}
+%
+% %\\newcommandx{\@macros@distributions@<>@distribution}[][]{ \@macros@distributions@<>@name \parens*{ } }
+%
+% %\newcommandx{\@macros@distributions@<>@cdf}[1][]{}
+%
+% %\newcommandx{\@macros@distributions@<>@expectation}[1][]{}
+%
+% %\newcommandx{\@macros@distributions@<>@variance}[1][]{}
+%
+% %\newcommandx{\@macros@distributions@<>}[1][]{}
 
 
 %
@@ -410,12 +467,27 @@
 \newcommand{\widemean}{\overline}
 \newcommand{\median}{\tilde}
 \newcommand{\widemedian}{\widetilde}
-\newcommand{\sample}[1]{\hat{#1}}
-\newcommand{\population}[1]{#1^{\ast}}
+\newcommand{\estimate}{\hat}
+\newcommand{\optimal}[1]{#1^{\varhexstar}} % \ast
 \newcommand{\param}[1]{\mathord{\mathsmaller{\mathrm{#1}}}}
 \newcommand{\randvar}[1]{\mathord{\mathlarger{\mathsf{#1}}}}
 \newcommand{\mle}{\mathrm{MLE}}
 \newcommand{\map}{\mathrm{MAP}}
+\newcommand{\MLE}[1]{#1_{\mle}}
+\newcommand{\MAP}[1]{#1_{\map}}
+
+
+
+%
+%  Information Theory
+%
+\DeclareMathOperator{\information}{\mathbf{I}}
+\DeclareMathOperator{\entropy}{\mathbf{H}}
+
+% TODO Entropy TODO
+% \Information{I}(E) = \log_2 \frac{1}{\Prob{E}}
+\newcommand{\Information}[1]{\information \bm{\mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}}
+\newcommand{\Entropy}[1]{\entropy \bm{\mathord{\mathlarger{\mleft\lbrack\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrack}}}}
 
 
 %
@@ -453,9 +525,18 @@
 %
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
+%
+%  hollow colon
+%
+\newcommand{\texthollowcolon}{%
+  \ensurestackMath{\stackon[1.5ex]{\circ}{\circ}}}
+\newcommand{\hollowcolon}{%
+  \savestack\Tmp{\raisebox{-.7pt}{$\texthollowcolon$}}%
+  \dp\Tmpcontent=\dimexpr\dp\Tmpcontent-.7pt\relax%
+  \mathrel{\scalerel*{\Tmp}{:}}}
 
 %
-%  ?
+%  ? seriously what the hell is this...
 %
 \newcommand{\cpm}{\mathbin{\mathpalette\@cpm\relax}}
 \newcommand{\@cpm}[2]{\ooalign{%
@@ -464,7 +545,7 @@
 
 
 % %
-% %  matrix?
+% %  attempt at augmented matrix
 % %
 % \renewcommand*\env@matrix[1][*\c@MaxMatrixCols\ c]{%
 % \hskip -\arraycolsep\
@@ -477,14 +558,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
-%  importing v symbol from txfonts
+%  import v symbol from txfonts (\mathnormal{v} looks like \mathnormal{u}...)
 %
 \DeclareSymbolFont{matha}{OML}{txmi}{m}{it}% txfonts
 \DeclareMathSymbol{\varv}{\mathord}{matha}{118}
 
 
 %
-%  importing double stroke \perp symbol from txfonts
+%  import double stroke \perp symbol from txfonts
 %
 \DeclareSymbolFont{symbolsC}{U}{txsyc}{m}{n}
 \SetSymbolFont{symbolsC}{bold}{U}{txsyc}{bx}{n}
@@ -538,18 +619,20 @@
 }%
 
 
+% ah... TeX... `impossible` to debug...
+
 % %
 % % range generator [START] {VAR} [STOP] [SKIPABOVE]
 % %       usage:
 % %          -  \mkseq[SKIPABOVE]{\mkrange[START]{VAR}[STOP]}[SEP][FUNC]
 % %
-% \newcommandx*{\@preamble@mkrange@body}[4][]{%
-%   \foreach \elem [count=\i] in {#1,...,\@preamble@mkrange@above} {%
+% \newcommandx*{\@macros@mkrange@body}[4][]{%
+%   \foreach \elem [count=\i] in {#1,...,\@macros@mkrange@above} {%
 %     \ifnum\i = 1%
 %       #2_{\elem}%
 %     \else%
 %       \ifnum\i = #4%
-%         \ifthenelse{\boolean{@preamble@mkrange@tail}}{%
+%         \ifthenelse{\boolean{@macros@mkrange@tail}}{%
 %           \, #2_{\elem) \, \ldots \, #2_{#3}%
 %         }{%
 %           \, #2_{\elem}%
@@ -563,9 +646,9 @@
 % \newcommandx*{\mkrange}[4][1=1 , 3=n, 4=2]{%
 %   \IfInteger{#1}{% START = INT
 %     \IfInteger{#4}{% SKIPABOVE = INT
-%       \def\@preamble@mkrange@above{\xintexpr #1 + #4\relax}%
-%       \newboolean{@preamble@mkrange@tail}
-%       \setboolean{@preamble@mkrange@tail}{true}
+%       \def\@macros@mkrange@above{\xintexpr #1 + #4\relax}%
+%       \newboolean{@macros@mkrange@tail}
+%       \setboolean{@macros@mkrange@tail}{true}
 %       \IfInteger{#3}{% STOP = INT
 %         \ifthenelse{#1 > #3}{% START > STOP
 %           \PackageError{preamble}{mkrange.START = '#1' > mkrange.STOP = '#3'}\@ehc%
@@ -574,11 +657,11 @@
 %             #2_{#1}%
 %           }{% START < STOP
 %             \ifthenelse{#4 = #3}{% SKIPABOVE = STOP
-%               \boolean{@preamble@mkrange@tail}{false}
-%               \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%               \boolean{@macros@mkrange@tail}{false}
+%               \@macros@mkrange@body{#1}{#2}{#4}{#3}%
 %             }{%
 %               \ifthenelse{#4 < #3}{% SKIPABOVE < STOP
-%                 \@preamble@mkrange@body{#1}{#2}{#4}{#3}%
+%                 \@macros@mkrange@body{#1}{#2}{#4}{#3}%
 %               }{% SKIPABOVE > STOP
 %                 \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.STOP = '#3'}\@ehc%
 %               }%
@@ -589,7 +672,7 @@
 %         \ifthenelse{#4 < #1}{% START > SKIPABOVE
 %           \PackageError{preamble}{mkrange.SKIPABOVE = '#4' < mkrange.START = '#1'}\@ehc%
 %         }{% START <= SKIPABOVE,  STOP != INT
-%           \@preamble@mkrange@body{#1}{#2}{#4}{#3}
+%           \@macros@mkrange@body{#1}{#2}{#4}{#3}
 %         }%
 %       }%
 %     }{\PackageError{preamble}{mkrange.SKIPABOVE = '#4' is not an Integer}\@ehc}%
@@ -607,21 +690,22 @@
 \newenvironment{case}[1]{\left\lbrace\begin{array}{lr}#1}{\end{array}\right\rbrace}
 
 
-% %
-% % Create boxed Environment
-% %
-% \newenvironment{boxed}%
-% 	{%
-% 		\begin{adjustbox}{minipage=0.85\textwidth,precode=\dbox}
-% 	}{%
-% 		\end{adjustbox}
-% 	}%
+%
+% Create dashed box Environment (`\dashbox` namespace taken by `dashbox.sty`)
+%
+\newenvironment{dashedbox}%
+	{%
+    \ \\
+		\begin{adjustbox}{minipage=0.85\textwidth,precode=\dbox}
+	}{%
+		\end{adjustbox}
+	}%
 
 
 %
 % Create boxedSolution Environment
 %
-\newenvironment{boxedSolution}%
+\newenvironment{dashedboxSolution}%
   {%
     \\
     \begin{solution}
@@ -636,7 +720,7 @@
 %
 % Create boxedProof Environment
 %
-\newenvironment{boxedProof}%
+\newenvironment{dashedboxProof}%
   {%
     \begin{adjustbox}{minipage=.85\textwidth,precode=\dbox}
     \begin{proof}
