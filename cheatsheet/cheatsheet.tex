@@ -1,0 +1,120 @@
+\documentclass[18pt, a2paper, landscape]{extarticle}
+\usepackage{extsizes}
+\usepackage{etoolbox}
+\usepackage{environ}
+\usepackage{xcolor} % [dvipsnames]
+\usepackage{lscape, pdflscape}
+\usepackage{pdfpages}
+
+\usepackage{macros}
+
+\usepackage{mdframed}
+\mdfsetup{skipabove=0pt, skipbelow=0pt, frametitleaboveskip=0pt, frametitlebelowskip=0pt}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\tcbset{nobeforeafter, breakable, colback=gray!10, colframe=gray!10}
+
+\usepackage[landscape]{geometry}
+\geometry{top=.1in,left=.1in,right=.1in,bottom=.1in}
+
+
+
+\usepackage{array, makecell, multirow, tabularx}
+% \renewcommand\theadfont{\normalsize\bfseries}
+% \renewcommand{\arraystretch}{.0001}
+
+\usepackage{multicol, booktabs, longtable}
+\usepackage{extramarks, linegoal}
+\usepackage{relsize, rotating}
+\usepackage{enumerate, enumitem}
+\setlist[itemize]{topsep=0pt,partopsep=0pt, parsep=0pt}
+\setlist[description]{leftmargin=0pt}
+
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\graphicspath{{graphics/}}
+\setkeys{Gin}{keepaspectratio}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                              {-1ex plus -.5ex minus -.2ex}%
+                              {0.5ex plus .2ex}%x
+                              {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                              {-1explus -.5ex minus -.2ex}%
+                              {0.5ex plus .2ex}%
+                              {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                              {-1ex plus -.5ex minus -.2ex}%
+                              {1ex plus .2ex}%
+                              {\normalfont\small\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+% % https://tex.stackexchange.com/questions/47910/reduce-space-before-and-after-tabular-environment
+% \setlength{\textfloatsep}{0.1cm}
+% \addtolength{\parskip}{-0.5mm}
+% \setlength{\intextsep}{0pt}
+% 
+% % https://tex.stackexchange.com/questions/224987/how-to-decrease-space-above-and-below-displayed-equations
+% \setlength\abovedisplayskip{0pt}
+% \setlength\belowdisplayskip{0pt}
+% \setlength\abovedisplayshortskip{0pt}
+% \setlength\belowdisplayshortskip{0pt}
+% 
+% \setlength\parskip{\baselineskip} % https://tex.stackexchange.com/questions/66533/implicit-newline-at-the-end-of-each-paragraph
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+\newcommand{\seperator}{\smallskip \hrule height 2pt \smallskip}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \titlespacing{command}{left spacing}{before spacing}{after spacing}[right]
+\usepackage{titlesec}
+  \titlespacing{\section}{0pt}{0pt}{0pt}
+  \titleformat{\section}
+  {\color{blue}\normalfont\large\bfseries} % blue % Cerulean
+  {\color{blue}\thesection}{1em}{} % blue % Cerulean
+
+  \titlespacing{\subsection}{0pt}{0pt}{0pt}
+  \titleformat{\subsection}
+  {\color{cyan}\normalfont\normalsize\bfseries} % cyan % Turquoise
+  {\color{cyan}\thesection}{1em}{} % cyan % Turquoise
+
+  \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+  \titleformat{\subsubsection}
+  {\color{black}\normalfont\small\bfseries}
+  {\color{black}\thesection}{1em}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\raggedright
+\footnotesize
+
+\begin{multicols*}{3}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{multicols*}
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

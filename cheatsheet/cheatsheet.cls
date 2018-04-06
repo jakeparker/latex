@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{cheatsheet_test}[2016/11/09 Cheatsheet]
+\ProvidesClass{cheatsheet_test}[2018/03/22 Cheatsheet]
 \LoadClass{extarticle}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,14 +102,21 @@
 	\mdfsetup{skipabove=0pt,skipbelow=0pt}
 	\setlist[description]{leftmargin=0pt}
 
-	\usepackage{titlesec}
-	\titleformat{\section}
-	{\color{blue}\normalfont\large\bfseries}
-	{\color{blue}\thesection}{1em}{}
+	\usepackage{titlesec} % \titlespacing{command}{left spacing}{before spacing}{after spacing}[right]
+  \titlespacing{\section}{0pt}{0pt}{0pt}
+  \titleformat{\section}
+	{\color{blue}\normalfont\large\bfseries} % blue % Cerulean
+	{\color{blue}\thesection}{1em}{} % blue % Cerulean
 
+  \titlespacing{\subsection}{0pt}{0pt}{0pt}
 	\titleformat{\subsection}
-	{\color{cyan}\normalfont\normalsize\bfseries}
-	{\color{cyan}\thesection}{1em}{}
+	{\color{cyan}\normalfont\normalsize\bfseries} % cyan % Turquoise
+	{\color{cyan}\thesection}{1em}{} % cyan % Turquoise
+
+  \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+  \titleformat{\subsubsection}
+  {\color{black}\normalfont\small\bfseries}
+  {\color{black}\thesection}{1em}{}
 }
 
 \AfterEndPreamble
