@@ -1,0 +1,57 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{macros}[2018/03/25 Preamble]
+
+\RequirePackage{kvoptions}
+\RequirePackage{environ}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{amsmath, amsthm, amssymb, amsfonts}
+\RequirePackage{xifthen, xparse, xargs, xintexpr, xfrac, xstring}
+\RequirePackage{dashbox, adjustbox, fancybox}
+\RequirePackage{mathtools, etoolbox}
+\mathtoolsset{centercolon}
+\RequirePackage{stackengine, scalerel}
+\RequirePackage{relsize, mleftright}
+\RequirePackage{bm, bbm, dsfont}
+\RequirePackage{gensymb}
+\RequirePackage{stmaryrd}
+\RequirePackage{array}
+\RequirePackage{pgffor}
+\RequirePackage{listings}
+
+\input{macros.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\SetupKeyvalOptions{family=macros, prefix=macros@}
+\ProcessKeyvalOptions*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\macros@eval}[1]{%
+  % check if kvoptions stored <value> in \<prefix>@<option>
+  \@ifundefined{macros@#1}{%
+    \PackageError{macros}{Evaluating unknown option '#1'}\@ehc
+  }{%
+    % check if there is macro stored \<prefix>@<option>@<value>
+    \@ifundefined{macros@#1@\csname macros@#1\endcsname}{%
+      \PackageError{macros}{%
+        Invalid option value: #1=%
+        \csname macros@#1\endcsname
+      }\@ehc
+    }{%
+      % evaluate the macro stored in \<prefix>@<option>@<value>
+      \wlog{Evaluating macro stored in known option '#1'}
+      \csname macros@#1@\csname macros@#1\endcsname\endcsname
+      \relax
+    }%
+  }%
+}
+%\macros@eval{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
