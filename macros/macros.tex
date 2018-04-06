@@ -1,21 +1,3 @@
-% TODO: migrate from LaTeX to LuaTex! 
-%   - (1.0 version is finally out)
-%   - (also support for unicode symbols! (via unicode-math.sty) (i.e. type '\sigma + tab' --> σ instead of \sigma)!
-%   - (I've had my fill of Tex... to say the least... )
-
-% Required *.tex Files:
-%   - dependencies.tex
-
-% Required Packages:
-%   - {amsmath, amsthm, amssymb, amsfonts}
-%   - {xifthen, xparse, xargs, xintexpr, xfrac, xstring}
-%   - {dashbox, adjustbox, fancybox}
-%   - {mathtools, etoolbox}
-%   - {gensymb, stmaryrd, relsize, bm, dsfont}
-%   - {array}
-%   - {pgffor}
-%   - {listings}
-
 % Notes:
 %   -  `\mathrel`  :  relation
 %   -  `\mathbin`  :  binary operation
@@ -42,7 +24,6 @@
 %
 %   -  `\bm{\mathord{\mathlarger{\left(\right.}}} #1  \bm{\mathord{\mathlarger{\left.\right)}}}`
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%                       math operators & commands                       %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,7 +36,7 @@
 \newcommand{\justifyy}[2]{&{#1}&#2}
 \newcommand{\indentitem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
 \newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
-\noindent{\normalfont\large\bfseries#1: #2} \vspace{0.5em}
+\noindent{{\normalfont\large\bfseries#1:}\quad #2} \vspace{0.5em}
 \hrule \vspace{.10in}}
 \newcommand{\solution}{\textbf{\normalsize\ Solution}}
 
@@ -103,7 +84,7 @@
 %  Logic
 %
 \newcommand{\st}{\mathrel{\mathsf{s}\centerdot\mathsf{t}\centerdot}}
-\newcommand{\suchthat}{\bm{\mathrel{\mathlarger{\hollowcolon}}}}
+\newcommand{\suchthat}{\bm{\mathrel{\mathlarger{\colon}}}}
 \newcommand{\then}{\bm{\mathord{\mathlarger{,}}}\ }
 \newcommand{\given}{\bm{\mathord{\mathlarger{\left. \middle\vert \right.}}}}
 \newcommand{\by}{\bm{\mathord{\mathlarger{;}}}\ }
@@ -127,6 +108,7 @@
 %\newcommandx{\SetDifference}[2]{} % TODO
 \newcommand{\PowerSet}[1]{\powerset\parens*{#1}}
 \newcommand{\Card}[1]{\verts*{#1}} % cardinality
+\newcommand{\Interval}[1]{\bm{\mathord{\mathlarger{\mleft\lbrack\vphantom{#1}\mright.}}} \!#1\! \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrack}}}}
 
 
 %
@@ -134,7 +116,7 @@
 %
 \DeclareMathOperator{\zero}{\mathds{0}}
 \DeclareMathOperator{\one}{\mathds{1}}
-\newcommand{\indicator}[1]{\mathds{#1}}
+\newcommand{\indicator}[1]{\mathbbm{#1}}
 
 
 %
@@ -181,6 +163,19 @@
 % \newcommand{\kperm}[2]{\frac{#1!}{(#1-#2)!}}
 \newcommand{\kselect}[2]{\frac{#1!}{#2!\ \parens*{#1-#2}!}}
 \renewcommand{\choose}[2]{\binom{#1}{#2}}
+
+
+%
+%  Number Theory
+%
+\renewcommand{\natural}{\mathbbm{N}} % what is the default \natural symbol used for?
+\newcommand{\whole}{\natural_{0}}
+\newcommand{\integer}{\mathbbm{Z}}
+\newcommand{\rational}{\mathbbm{Q}}
+\newcommand{\irrational}{\rational^{\prime}}
+\newcommand{\real}{\mathbbm{R}}
+\newcommand{\complex}{\mathbbm{C}}
+
 
 
 %
@@ -467,15 +462,14 @@
 \newcommand{\widemean}{\overline}
 \newcommand{\median}{\tilde}
 \newcommand{\widemedian}{\widetilde}
-\newcommand{\estimate}{\hat}
-\newcommand{\optimal}[1]{#1^{\varhexstar}} % \ast
+\newcommand{\estimate}[1]{\hat{#1}}
+\newcommand{\optimal}[1]{#1^{\ast}} % \varhexstar
 \newcommand{\param}[1]{\mathord{\mathsmaller{\mathrm{#1}}}}
 \newcommand{\randvar}[1]{\mathord{\mathlarger{\mathsf{#1}}}}
 \newcommand{\mle}{\mathrm{MLE}}
 \newcommand{\map}{\mathrm{MAP}}
 \newcommand{\MLE}[1]{#1_{\mle}}
 \newcommand{\MAP}[1]{#1_{\map}}
-
 
 
 %
@@ -488,6 +482,13 @@
 % \Information{I}(E) = \log_2 \frac{1}{\Prob{E}}
 \newcommand{\Information}[1]{\information \bm{\mathord{\mathlarger{\mleft\lparen\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rparen}}}}
 \newcommand{\Entropy}[1]{\entropy \bm{\mathord{\mathlarger{\mleft\lbrack\vphantom{#1}\mright.}}} #1 \bm{\mathord{\mathlarger{\mleft.\vphantom{#1}\mright\rbrack}}}}
+
+
+%
+%  Learning Theory
+%
+\newcommand{\loss}{\mathord{\raisebox{-0.3ex}{$\mathlarger{\mathlarger{\ell}}$}}}
+\newcommand{\risk}{R}
 
 
 %
@@ -517,8 +518,8 @@
 %  I dislike the default abbreviation of infinity...
 %
 \newcommand{\infinity}{\infty}
-\newcommand{\posinf}{+\infty}
-\newcommand{\neginf}{-\infty}
+\newcommand{\posinf}{\mathord{{+}\infty}}
+\newcommand{\neginf}{\mathord{{-}\infty}}
 
 %
 %  better qed symbol
