@@ -1,0 +1,53 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{theorems}[2018/03/25 Preamble]
+
+\RequirePackage{kvoptions}
+\RequirePackage{environ}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{amsthm}
+\RequirePackage{mdframed}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{theorems}
+\tcuselibrary{skins}
+\tcuselibrary{breakable}
+
+\input{styles.tex}
+\input{theorems.tex}
+\input{options.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\SetupKeyvalOptions{family=theorems, prefix=theorems@}
+\DeclareStringOption[plain]{style}[boxed]
+\ProcessKeyvalOptions*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\theorems@eval}[1]{%
+  % check if kvoptions stored <value> in \<prefix>@<option>
+  \@ifundefined{theorems@#1}{%
+    \PackageError{theorems}{Evaluating unknown option '#1'}\@ehc
+  }{%
+    % check if there is macro stored \<prefix>@<option>@<value>
+    \@ifundefined{theorems@#1@\csname theorems@#1\endcsname}{%
+      \PackageError{theorems}{%
+        Invalid option value: #1=%
+        \csname theorems@#1\endcsname
+      }\@ehc
+    }{%
+      % evaluate the macro stored in \<prefix>@<option>@<value>
+      \wlog{Evaluating macro stored in known option '#1'}
+      \csname theorems@#1@\csname theorems@#1\endcsname\endcsname
+      \relax
+    }%
+  }%
+}
+\theorems@eval{style}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
