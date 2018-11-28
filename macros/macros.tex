@@ -35,8 +35,17 @@
 \newcommand{\justif}[2]{&{#1}&\text{#2}}
 \newcommand{\justifyy}[2]{&{#1}&#2}
 \newcommand{\indentitem}{\setlength\itemindent{23mm}\setlength\hangindent{26mm}}
-\newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
-\noindent{{\normalfont\large\bfseries#1:}\quad #2} \vspace{0.5em}
+
+% after git-pull, not sure which version worked with my other local code,
+% so added this comment as a reminer, if something goes wrong when/if i recompile something
+%   \newcommand{\question}[2]{\vspace{.25in} \hrule\vspace{0.5em}
+%   \noindent{{\normalfont\large\bfseries#1:}\quad #2} \vspace{0.5em}
+\newcommand{\question}[1]{\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{{\normalfont\large\bfseries#1:}} \vspace{0.5em}
+\hrule \vspace{.10in}}
+
+\newcommand{\questionn}[2]{\hrule%
+\vspace{-0.5\baselineskip}\noindent{{\normalfont\large\bfseries#1:}}\vspace{0.5\baselineskip}\ \\ \noindent{#2} \vspace{0.25em}%
 \hrule \vspace{.10in}}
 \newcommand{\solution}{\textbf{\normalsize\ Solution}}
 
@@ -90,6 +99,9 @@
 \newcommand{\by}{\bm{\mathord{\mathlarger{;}}}\ }
 \newcommand{\as}{\bm{\mathrel{\mathlarger{\sim}}}}
 \newcommand{\eq}{{=}} % {\mathord{\mathsmaller{=}}}
+%\newcommand{\and}{\vee} % \vee
+%\newcommand{\or}{\wedge} % \wedge
+%\newcommand{\not}{\neg}
 
 
 %
@@ -226,7 +238,7 @@
 \DeclarePairedDelimiterXPP{\pnorm}[2]{}{\lVert}{\rVert}{\ifblank{#2}{_{L^{2}}}{_{L^{#2}}}}{\ifblank{#1}{\:\cdot\:}{#1}}
 \DeclarePairedDelimiterX{\innerprod}[2]{\langle}{\rangle}{#1,\,#2}
 
-\let\arrowvec\vec
+\let\arrow\vec
 \renewcommand{\vec}[1]{\bm{#1}}
 \newcommand{\mat}[1]{\bm{\mathsf{#1}}} % \mathbf{} \uppercase{}
 
